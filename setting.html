@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Einstellung</title>
+    <style>
+
+        :root {
+            --main-color: #d46000;
+            --background-color: #f0f0f0;
+            --main-back: var(--background-color);
+            --text-color: #000000;
+            --text-color-hover: white;
+            --border-radius: 5px;
+            --border-color: #94949490;
+            --border: 1px solid var(--border-color);
+            --color-hover: rgba(0, 0, 0, 0.20);
+            --backcolor-hover: rgba(0, 0, 0, 0.10);
+            --box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
+            --overview-width: 250px;
+            --header-height: 60px;
+            --padding: 12px;
+            --padding-button: 6px 10px;
+        }
+
+        /* Dunkelmodus Theme */
+        [data-theme="dark"] {
+            --background-color: #303030;
+            --main-back: var(--background-color);
+            --text-color: #ffffff;
+            --border-color: #00000090;
+            --border: 1px solid var(--border-color);
+            --main-color: #ca6c00;
+            --box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
+        }
+
+        html {
+            background-color: var(--background-color);
+        }
+
+        body {
+            margin: 50px;
+            padding: var(--padding);
+            background-color:var(--backcolor-hover);
+            border: var(--border);
+            border-radius: var(--border-radius);
+        }
+
+        main,
+        header,
+        footer {
+            border: var(--border);
+            border-radius: var(--border-radius);
+            margin: var(--padding);
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        header,
+        footer {
+            padding: var(--padding);
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary {
+            list-style: none;
+        }   
+
+        .content-header {
+            padding: var(--padding);
+        }
+
+        .content-main {
+            margin-top: var(--padding);
+        }
+
+        hr {
+            color: var(--border-color);
+            margin: 0;
+        }
+
+        a {
+            color: var(--main-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <p>Dies ist eine Alpha Version, die Editierbaren Einstellungen kommen mit der v.0.8</p>
+    </header>
+    <main>
+        <details class="content-header">
+            <summary>Ersteller</summary>
+            <div class="content-main">
+
+            </div>
+        </details>
+        <hr>
+        <details class="content-header">
+            <summary>Bilder Ändern</summary>
+            <div class="content-main">
+                <p>Header-Bild: <br>Das Header Bild ersetzt mann wenn man im Ordner img/big-logo.png die datei ersetzt und die neue Datei mit dem selben namen benent.</p>
+                <p>Icon-Bild: <br>Die Icon bilder ersetzt mann wenn man im Ordner img/small-logo.png die datei ersetzt und die neue Datei mit dem selben namen benent.</p>
+            </div>
+        </details>
+        <hr>
+        <details class="content-header">
+            <summary>Overview</summary>
+            <div class="content-main">
+                <p>Die Overview ist das ganz Linke Symbohl im Header</p>
+                <p>Gruppe: <br></p>
+                <p>Button: <br></p>
+                <p>Link: <br></p>
+            </div>
+        </details>
+        <hr>
+        <details class="content-header">
+            <summary>Design</summary>
+            <div class="content-main">
+                
+            </div>
+        </details>
+        <hr>
+        <details class="content-header">
+            <summary>Overview</summary>
+            <div class="content-main">
+                
+            </div>
+        </details>
+    </main>
+    <footer>
+        Projekt: openMoto-webdesk <br>
+        Version: 0.7.5 <br>
+        Github: <a href="https://github.com/BIT-TAG/openMoto-webdesk">Reposetory</a><br>
+        Gitlab: coming soon 
+        <br><br>
+        Organisation: BIT-TAG EK <br>
+        Webpage: <a href="http://bit-tag.com">BIT-TAG Webseite</a> <br>
+        Autor: Dustin Ludwig <br>
+    </footer>
+</body>
+</html>
