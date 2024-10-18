@@ -59,8 +59,15 @@
             border-radius: var(--border-radius);
         }
 
+        header {
+            border: var(--border);
+            border-radius: var(--border-radius);
+            margin: var(--padding);
+            background-color: var(--backcolor-hover);
+            color: var(--main-color);
+        }
+
         main,
-        header,
         footer {
             border: var(--border);
             border-radius: var(--border-radius);
@@ -122,12 +129,16 @@
             padding: var(--padding);
         }
 
+        ul {
+            margin: 0;
+        }
+
     </style>
 </head>
 <body>
     <div class="body">
     <header>
-        <p>Dies ist eine Alpha Version, die Editierbaren Einstellungen kommen mit der v.0.8</p>
+        Dies ist eine Alpha Version, die Editierbaren Einstellungen kommen mit der <code>v.0.8</code>
     </header>
     <h3>Anleitung</h3>
     <main>
@@ -188,9 +199,33 @@
     <h3>Roadmap</h3>
     <main>
         <details class="content-header">
+            <summary>2024 Q4</summary>
+            <div class="content-main">
+                v.0.7.6
+                <ul>
+                    <li>Homepage</li>
+                    <li>leichte Verbesserungen im Design</li>
+                    <li>config.json Datei</li>
+                </ul>
+            </div>
+        </details>
+        <hr>
+        <details class="content-header">
             <summary>2025 Q1</summary>
             <div class="content-main">
-                
+                v.0.7.7
+                <ul>
+                    <li>Mehrere Desktops</li>
+                    <li>sidebar Überarbeiten</li>
+                </ul>
+                v.0.8
+                <ul>
+                    <li>Editierbare Einstellungen</li>
+                    <li>Personalisierte Accounts</li>
+                    <li>Django - Backend</li>
+                    <li>Svelte - Fontend</li>
+                    <li>Mehrere Sprachen</li>
+                </ul>
             </div>
         </details>
     </main>
