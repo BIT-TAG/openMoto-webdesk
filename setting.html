@@ -7,7 +7,10 @@
     <style>
 
         :root {
-            --main-color: #d46000;
+            --color: 212, 96, 0;
+            --main-color: rgba(var(--color));
+            --backcolor-hover: rgba(var(--color), 0.10);
+            --backcolorgray-hover: rgba(0,0,0,0.05);
             --background-color: #f0f0f0;
             --main-back: var(--background-color);
             --text-color: #000000;
@@ -16,7 +19,6 @@
             --border-color: #94949490;
             --border: 1px solid var(--border-color);
             --color-hover: rgba(0, 0, 0, 0.20);
-            --backcolor-hover: rgba(0, 0, 0, 0.10);
             --box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
             --overview-width: 250px;
             --header-height: 60px;
@@ -26,12 +28,14 @@
 
         /* Dunkelmodus Theme */
         [data-theme="dark"] {
+            --color: 150, 100, 0;
+            --main-color: rgba(var(--color));
+            --backcolor-hover: rgba(var(--color), 0.10);
             --background-color: #303030;
             --main-back: var(--background-color);
             --text-color: #ffffff;
             --border-color: #00000090;
             --border: 1px solid var(--border-color);
-            --main-color: #ca6c00;
             --box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
         }
 
@@ -39,10 +43,18 @@
             background-color: var(--background-color);
         }
 
-        body {
-            margin: 50px;
+        body { 
+            padding: 10px;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            background-color:var(--backcolorgray-hover);
+        }
+
+        .body {
+            background-color:var(--background-color);
+            margin: 20px;
             padding: var(--padding);
-            background-color:var(--backcolor-hover);
             border: var(--border);
             border-radius: var(--border-radius);
         }
@@ -53,7 +65,7 @@
             border: var(--border);
             border-radius: var(--border-radius);
             margin: var(--padding);
-            background-color: var(--background-color);
+            background-color: var(--backcolorgray-hover);
             color: var(--text-color);
         }
 
@@ -72,15 +84,18 @@
         }
 
         summary {
+            padding: var(--padding);
             list-style: none;
         }   
 
-        .content-header {
-            padding: var(--padding);
-        }
+        summary:hover {
+            color: var(--main-color);
+        }  
+
 
         .content-main {
-            margin-top: var(--padding);
+            padding: var(--padding);
+            padding-top: 0;
         }
 
         hr {
@@ -97,9 +112,20 @@
             text-decoration: underline;
         }
         
+        code, pre {
+            padding: calc(var(--padding)/2);
+            border-radius: var(--border-radius);
+            background-color: var(--backcolorgray-hover);
+        }
+
+        pre {
+            padding: var(--padding);
+        }
+
     </style>
 </head>
 <body>
+    <div class="body">
     <header>
         <p>Dies ist eine Alpha Version, die Editierbaren Einstellungen kommen mit der v.0.8</p>
     </header>
@@ -108,33 +134,54 @@
         <details class="content-header">
             <summary>Bilder Ändern</summary>
             <div class="content-main">
-                <p>Header-Bild: <br>Das Header Bild ersetzt mann wenn man im Ordner img/big-logo.png die datei ersetzt und die neue Datei mit dem selben namen benent.</p>
-                <p>Icon-Bild: <br>Die Icon bilder ersetzt mann wenn man im Ordner img/small-logo.png die datei ersetzt und die neue Datei mit dem selben namen benent.</p>
+                <p>Header-Bild: <br>Das Header Bild ersetzt mann wenn man im Ordner <code>img/big-logo.png</code> die datei ersetzt und die neue Datei mit dem selben namen benent.</p>
+                <p>Icon-Bild: <br>Die Icon bilder ersetzt mann wenn man im Ordner <code>img/small-logo.png</code> die datei ersetzt und die neue Datei mit dem selben namen benent.</p>
             </div>
         </details>
         <hr>
         <details class="content-header">
             <summary>Overview</summary>
             <div class="content-main">
-                <p>Die Overview ist das ganz Linke Symbohl im Header</p>
-                <p>Gruppe: <br></p>
-                <p>Button: <br></p>
-                <p>Link: <br></p>
+                <p>Die Overview ist das ganz Linke Symbohl im Header. Diese ist kann in der webdesk.html datei bearbeitete werden <br>
+                in der <code>const data = {}</code> ist der Inhalt der Overview definiert.</p>
+                <p>Gruppe: <br>
+                Im String <code>group: " ",</code></p>
+                <p>Link: <br>Unter dem String <code>link: " ",</code> kannst du eine Webseite oder html Datei definieren die aufgerufen werden soll</p>
+                <p>Button: <br>Im <code>onClick: " ",</code> String definiertst du die Funktion die ausgefürt wird. <br>
+                Standartmäsig ist die Funktion <code>"iframeWindow"</code> definiert die den vorher definierten Link im Fenster voll anzeigt <br>
+                Wenn kein <code>onClick</code> definiert ist wird aus dem Button nur ein Link</p>
+                <pre>
+                    {
+                        group: "Demo Gruppe",
+                        panels: [
+                        {
+                            buttonText: "Button",
+                            content: "Das ist ein Button",
+                            link: "https://bit-tag.com",
+                            onClick: "iframeWindow",
+                        },
+                        {
+                            buttonText: "Link",
+                            content: "Das ist ein Link",
+                            link: "https://startpage.com",
+                        },
+                        ],
+                    },</pre>
             </div>
         </details>
         <hr>
         <details class="content-header">
             <summary>Design</summary>
             <div class="content-main">
-                <p>Das Design wird in der styles.css Datei definiert. <br>In der :root scheife kann man Farben, Rundungen, abstände, etc. ändern.</p>
-                <p>Darkmode: <br>Den Darkmode ändert man in der zweiten schleife [data-theme="dark"]</p>
+                <p>Das Design wird in der <code>styles.css</code> Datei definiert. <br>In der <code>:root</code> scheife kann man Farben, Rundungen, abstände, etc. ändern.</p>
+                <p>Darkmode: <br>Den Darkmode ändert man in der zweiten schleife <code>[data-theme="dark"]</code></p>
             </div>
         </details>
         <hr>
         <details class="content-header">
             <summary>Start App</summary>
             <div class="content-main">
-                <p>Die App die sich beim starten öffnet, wird zuzeit in der Funktion definiert und muss in der workapce</p>
+                <p>Die App die sich beim starten öffnet, wird zuzeit in der Funktion <code>generateOverview(data)</code> definiert und muss in der <code>webdesk.html</code> manuell geändet werden</p>
             </div>
         </details>
     </main>
@@ -151,11 +198,13 @@
         Projekt: openMoto-webdesk <br>
         Version: 0.7.5 <br>
         Github: <a href="https://github.com/BIT-TAG/openMoto-webdesk">Reposetory</a><br>
-        Gitlab: coming soon 
+        Gitlab: coming soon <br>
+        Webpage: <a href="http://open-moto.org">Projekt Webseite</a> (openMoto)
         <br><br>
         Organisation: BIT-TAG EK <br>
         Webpage: <a href="http://bit-tag.com">BIT-TAG Webseite</a> <br>
         Autor: Dustin Ludwig <br>
     </footer>
+</div>
 </body>
 </html>
