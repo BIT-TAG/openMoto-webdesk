@@ -17,7 +17,7 @@
         
             <ul class="menu">
                 <li class="dropdown-container">
-                    <div class="setting"><button><i data-feather="grid" aria-placeholder="apps"></button></i></div>
+                    <div class="setting"><button title="Overview"><i data-feather="grid" aria-placeholder="apps"></button></i></div>
                     <ul class="dropdown" id="homeDropdown">
                         <li><div class="overview"></div></li>
                     </ul>
@@ -30,10 +30,10 @@
                     </span>
                 </li>
                 <li>
-                    <button>Home</button>
+                    <button title="Homepage">Home</button>
                 </li>
                 <li>
-                    <button>Desktop</button>
+                    <button title="Desktop">Desktop</button>
                 </li>
             </ul>
         </div>
@@ -44,7 +44,7 @@
             <ul class="menu">
                 <!-- Dropdown "Zoom" -->
                 <li>
-                    <button class="setting"><i data-feather="settings" aria-placeholder="Settings"></i></button>
+                    <button title="Einstellungen" class="setting"><i data-feather="settings" aria-placeholder="Settings"></i></button>
                     <ul class="dropdown">
                         <li><button id="themeToggle"><i data-feather="moon" aria-placeholder="dark/light"></i></button></li>
                         <li>
@@ -71,7 +71,7 @@
                     </ul>
                 </li>
                 <li>
-                    <button class="setting"><i data-feather="help-circle" aria-placeholder="Support"></i></button>
+                    <button title="Support" class="setting"><i data-feather="help-circle" aria-placeholder="Support"></i></button>
                     <ul class="dropdown">
                         <li><button id="themeToggle">Wordpress</button></li>
                         <li><button id="themeToggle">Nextcloud</button></li>
@@ -105,9 +105,9 @@
                     <a class="window-a" target="_blank" href="setting.html" title="Extern öffnen">Einstellung</a>
                 </span>
                 <div class="buttons">
-                    <button class="window-button" onclick="minimizeWindow(event, 'window1')">_</button>
-                    <button class="window-button" onclick="maximizeWindow('window1')">□</button>
-                    <button class="window-close" onclick="closeWindow('window1')">✖</button>
+                    <button title="Minimieren" class="window-button" onclick="minimizeWindow(event, 'window1')">_</button>
+                    <button title="Maximieren" class="window-button" onclick="maximizeWindow('window1')">□</button>
+                    <button title="Schließen" class="window-close" onclick="closeWindow('window1')">✖</button>
                 </div>
             </div>
             <div class="window-content">
