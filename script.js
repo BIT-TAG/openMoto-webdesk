@@ -788,13 +788,9 @@
   
           const sysSetting = () => {
               const windowTitle = 'Einstellung';
-              const link = 'https://search.tag.org';
-              const windowContent = `
-                  <div>
-  
-                  </div>
-              `;
-              sysWindow(windowTitle, windowContent);
+              const link = 'setting.html';
+
+              iframeWindow(windowTitle, link);
           };
   
           const sysSupport = () => {
