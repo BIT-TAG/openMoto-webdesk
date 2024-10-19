@@ -1,29 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Einstellung</title>
+    <title>Einstellungen</title>
     <style>
-
         :root {
             --color: 212, 96, 0;
             --main-color: rgba(var(--color));
             --backcolor-hover: rgba(var(--color), 0.10);
-            --backcolorgray-hover: rgba(0,0,0,0.05);
+            --backcolorgray-hover: rgba(0, 0, 0, 0.05);
             --background-color: #ffffff;
-            --main-back: var(--background-color);
             --text-color: #000000;
-            --text-color-hover: white;
             --border-radius: 5px;
-            --border-color: #94949490;
+            --border-color: var(--background-color);
             --border: 1px solid var(--border-color);
-            --color-hover: rgba(0, 0, 0, 0.20);
-            --box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
-            --overview-width: 250px;
-            --header-height: 60px;
-            --padding: 12px;
-            --padding-button: 6px 10px;
+            --box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
+            --padding: 5px;
         }
 
         /* Dunkelmodus Theme */
@@ -32,82 +25,109 @@
             --main-color: rgba(var(--color));
             --backcolor-hover: rgba(var(--color), 0.10);
             --background-color: #303030;
-            --main-back: var(--background-color);
             --text-color: #ffffff;
             --border-color: #00000090;
             --border: 1px solid var(--border-color);
-            --box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
+            --box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
         }
 
         html {
             background-color: var(--background-color);
-        }
-
-        body { 
-            padding: 10px;
             height: 100%;
             width: 100%;
+        }
+
+        body {
+            padding: calc(var(--padding)*3);
             margin: 0;
-            background-color:var(--backcolorgray-hover);
+            height: 100%;
+            width: 100%;
+            background-color: var(--backcolorgray-hover);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .body {
-            background-color:var(--background-color);
-            margin: 20px;
-            padding: var(--padding);
-            border: var(--border);
+        .container {
+            display: flex;
+            width: 80%;
+            max-width: 1200px;
+            background-color: var(--background-color);
+            box-shadow: var(--box-shadow);
             border-radius: var(--border-radius);
+            overflow: hidden;
         }
 
-        header {
+        /* Sidebar Styling */
+        .sidebar {
+            flex: 0 0 250px;
+            background-color: var(--background-color);
+            border-right: 1px solid var(--border-color);
+            padding: var(--padding);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar button {
+            background-color: transparent;
+            border: none;
+            text-align: left;
+            padding: calc(var(--padding) * 2);
+            font-size: 16px;
+            color: var(--text-color);
+            cursor: pointer;
+            width: 100%;
+            border-radius: var(--border-radius);
+            margin: calc(var(--padding) / 2);
+        }
+
+        .sidebar button:hover {
+            background-color: var(--backcolor-hover);
+            color: var(--main-color);
+        }
+
+        .sidebar button.active {
+            background-color: var(--backcolorgray-hover);
+            color: var(--text-color);
+        }
+
+        .sidebar button.active:hover {
+            background-color: var(--backcolor-hover);
+        }
+
+        /* Hauptinhalt Styling */
+        .content {
+            flex: 1;
+            padding: var(--padding);
+        }
+
+        .content section {
+            display: none;
+        }
+
+        .content section.active {
+            display: block;
+        }
+
+        /* Allgemeine Elemente */
+        header,
+        footer {
             border: var(--border);
             border-radius: var(--border-radius);
             margin: var(--padding);
             background-color: var(--backcolor-hover);
             color: var(--main-color);
+            padding: calc(var(--padding) * 2);
         }
 
         main,
         footer {
-            border: var(--border);
-            border-radius: var(--border-radius);
-            margin: var(--padding);
-            background-color: var(--backcolorgray-hover);
             color: var(--text-color);
         }
 
         h3 {
-            margin: var(--padding);
+            margin: calc(var(--padding) * 2);
             color: var(--text-color);
-        }
-
-        header,
-        footer {
-            padding: var(--padding);
-        }
-
-        summary::-webkit-details-marker {
-            display: none;
-        }
-
-        summary {
-            padding: var(--padding);
-            list-style: none;
-        }   
-
-        summary:hover {
-            color: var(--main-color);
-        }  
-
-
-        .content-main {
-            padding: var(--padding);
-            padding-top: 0;
-        }
-
-        hr {
-            color: var(--border-color);
-            margin: 0;
         }
 
         a {
@@ -118,9 +138,10 @@
         a:hover {
             text-decoration: underline;
         }
-        
-        code, pre {
-            padding: calc(var(--padding)/2);
+
+        code,
+        pre {
+            padding: calc(var(--padding) / 2);
             border-radius: var(--border-radius);
             background-color: var(--backcolorgray-hover);
         }
@@ -133,114 +154,219 @@
             margin: 0;
         }
 
+        .content-header {
+            border: var(--border);
+            margin-bottom: 1px;
+            border-radius: var(--border-radius);
+            background-color: var(--backcolorgray-hover);
+        }
+
+        .content-main {
+            padding: var(--padding);
+            padding-top: 0;
+        }
+
+        summary {
+            padding: calc(var(--padding) * 2);
+            list-style: none;
+        }
+
+        summary:hover {
+            color: var(--main-color);
+            border-radius: var(--border-radius);
+            background-color: var(--backcolor-hover);
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        svg {
+            height: 15px;
+        }
     </style>
 </head>
 <body>
-    <div class="body">
-    <header>
-        Dies ist eine Alpha Version, die Editierbaren Einstellungen kommen mit der <code>v.0.8</code>
-    </header>
-    <h3>Anleitung</h3>
-    <main>
-        <details class="content-header">
-            <summary>Bilder Ändern</summary>
-            <div class="content-main">
-                <p>Header-Bild: <br>Das Header Bild ersetzt mann wenn man im Ordner <code>img/big-logo.png</code> die datei ersetzt und die neue Datei mit dem selben namen benent.</p>
-                <p>Icon-Bild: <br>Die Icon bilder ersetzt mann wenn man im Ordner <code>img/small-logo.png</code> die datei ersetzt und die neue Datei mit dem selben namen benent.</p>
-            </div>
-        </details>
-        <hr>
-        <details class="content-header">
-            <summary>Overview</summary>
-            <div class="content-main">
-                <p>Die Overview ist das ganz Linke Symbohl im Header. Diese ist kann in der webdesk.html datei bearbeitete werden <br>
-                in der <code>const data = {}</code> ist der Inhalt der Overview definiert.</p>
-                <p>Gruppe: <br>
-                Im String <code>group: " ",</code></p>
-                <p>Link: <br>Unter dem String <code>link: " ",</code> kannst du eine Webseite oder html Datei definieren die aufgerufen werden soll</p>
-                <p>Button: <br>Im <code>onClick: " ",</code> String definiertst du die Funktion die ausgefürt wird. <br>
-                Standartmäsig ist die Funktion <code>"iframeWindow"</code> definiert die den vorher definierten Link im Fenster voll anzeigt <br>
-                Wenn kein <code>onClick</code> definiert ist wird aus dem Button nur ein Link</p>
-                <pre>
-                    {
-                        group: "Demo Gruppe",
-                        panels: [
-                        {
-                            buttonText: "Button",
-                            content: "Das ist ein Button",
-                            link: "https://bit-tag.com",
-                            onClick: "iframeWindow",
-                        },
-                        {
-                            buttonText: "Link",
-                            content: "Das ist ein Link",
-                            link: "https://startpage.com",
-                        },
-                        ],
-                    },</pre>
-            </div>
-        </details>
-        <hr>
-        <details class="content-header">
-            <summary>Design</summary>
-            <div class="content-main">
-                <p>Das Design wird in der <code>styles.css</code> Datei definiert. <br>In der <code>:root</code> scheife kann man Farben, Rundungen, abstände, etc. ändern.</p>
-                <p>Darkmode: <br>Den Darkmode ändert man in der zweiten schleife <code>[data-theme="dark"]</code></p>
-            </div>
-        </details>
-        <hr>
-        <details class="content-header">
-            <summary>Start App</summary>
-            <div class="content-main">
-                <p>Die App die sich beim starten öffnet, wird zuzeit in der Funktion <code>generateOverview(data)</code> definiert und muss in der <code>webdesk.html</code> manuell geändet werden</p>
-            </div>
-        </details>
-    </main>
-    <h3>Roadmap</h3>
-    <main>
-        <details class="content-header">
-            <summary>2024 Q4</summary>
-            <div class="content-main">
-                v.0.7.6
-                <ul>
-                    <li>Homepage</li>
-                    <li>leichte Verbesserungen im Design</li>
-                    <li>config.json Datei</li>
-                    <li>Window</li>
-                </ul>
-            </div>
-        </details>
-        <hr>
-        <details class="content-header">
-            <summary>2025 Q1</summary>
-            <div class="content-main">
-                v.0.7.7
-                <ul>
-                    <li>Mehrere Desktops</li>
-                    <li>sidebar Überarbeiten</li>
-                </ul>
-                v.0.8
-                <ul>
-                    <li>Editierbare Einstellungen</li>
-                    <li>Personalisierte Accounts</li>
-                    <li>Django - Backend</li>
-                    <li>Svelte - Fontend</li>
-                    <li>Mehrere Sprachen</li>
-                </ul>
-            </div>
-        </details>
-    </main>
-    <footer>
-        Projekt: openMoto-webdesk <br>
-        Version: 0.7.5 <br>
-        Github: <a href="https://github.com/BIT-TAG/openMoto-webdesk">Reposetory</a><br>
-        Gitlab: coming soon <br>
-        Webpage: <a href="http://open-moto.org">Projekt Webseite</a> (openMoto)
-        <br><br>
-        Organisation: BIT-TAG EK <br>
-        Webpage: <a href="http://bit-tag.com">BIT-TAG Webseite</a> <br>
-        Autor: Dustin Ludwig <br>
-    </footer>
-</div>
+    <div class="container">
+        <!-- Sidebar mit Buttons -->
+        <div class="sidebar" id="button-container">
+            <!-- Buttons werden dynamisch hinzugefügt -->
+        </div>
+
+        <!-- Content Bereich -->
+        <div class="content">
+            <section id="Allgemein" data-title="Allgemein" class="active">
+                <header>
+                    Dies ist eine Alpha Version, die editierbaren Einstellungen kommen mit der <code>v.0.8</code>
+                </header>
+                <h3><i data-feather="book-open"></i> Anleitung</h3>
+                <main>
+                    <details class="content-header">
+                        <summary>Bilder Ändern</summary>
+                        <div class="content-main">
+                            <p>Header-Bild: <br>Das Header Bild ersetzt man, indem man im Ordner <code>img/big-logo.png</code> die Datei ersetzt und die neue Datei mit dem selben Namen benennt.</p>
+                            <p>Icon-Bild: <br>Die Icon-Bilder ersetzt man, indem man im Ordner <code>img/small-logo.png</code> die Datei ersetzt und die neue Datei mit dem selben Namen benennt.</p>
+                        </div>
+                    </details>
+                    <details class="content-header">
+                        <summary>Overview</summary>
+                        <div class="content-main">
+                            <p>Die Overview ist das ganz linke Symbol im Header. Diese kann in der <code>webdesk.html</code>-Datei bearbeitet werden.</p>
+                            <p>Gruppe: <br>
+                            Im String <code>group: " ",</code></p>
+                            <p>Link: <br>Im String <code>link: " ",</code> kannst du eine Webseite oder HTML-Datei definieren, die aufgerufen werden soll.</p>
+                            <p>Button: <br>Im String <code>onClick: " ",</code> definierst du die Funktion, die ausgeführt wird.</p>
+                            <pre>
+{
+    group: "Demo Gruppe",
+    panels: [
+    {
+        buttonText: "Button",
+        content: "Das ist ein Button",
+        link: "https://bit-tag.com",
+        onClick: "iframeWindow",
+    },
+    {
+        buttonText: "Link",
+        content: "Das ist ein Link",
+        link: "https://startpage.com",
+    },
+    ],
+},</pre>
+                        </div>
+                    </details>
+                    <details class="content-header">
+                        <summary>Design</summary>
+                        <div class="content-main">
+                            <p>Das Design wird in der <code>styles.css</code>-Datei definiert.</p>
+                            <p>Darkmode: <br>Den Darkmode ändert man in der zweiten Schleife <code>[data-theme="dark"]</code>.</p>
+                        </div>
+                    </details>
+                    <details class="content-header">
+                        <summary>Start App</summary>
+                        <div class="content-main">
+                            <p>Die App, die sich beim Starten öffnet, wird in der Funktion <code>generateOverview(data)</code> definiert und muss manuell geändert werden.</p>
+                        </div>
+                    </details>
+                </main>
+                <h3><i data-feather="git-merge"></i> Roadmap</h3>
+                <main>
+                    <details class="content-header">
+                        <summary>2024 Q4</summary>
+                        <div class="content-main">
+                            <p>v.0.7.6</p>
+                            <ul>
+                                <li>Homepage</li>
+                                <li>Icon in Overview</li>
+                                <li>Leichte Verbesserungen im Design</li>
+                                <li>config.json Datei</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="content-header">
+                        <summary>2025 Q1</summary>
+                        <div class="content-main">
+                            <p>v.0.7.7</p>
+                            <ul>
+                                <li>Mehrere Desktops</li>
+                                <li>Sidebar überarbeiten</li>
+                            </ul>
+                            <p>v.0.8</p>
+                            <ul>
+                                <li>Editierbare Einstellungen</li>
+                                <li>Personalisierte Accounts</li>
+                                <li>Django - Backend</li>
+                                <li>Svelte - Frontend</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="content-header">
+                        <summary>2025 Q2</summary>
+                        <div class="content-main">
+                            <p>v.0.8.1</p>
+                            <ul>
+                                <li>Mehrere Sprachen</li>
+                            </ul>
+                            <p>v.0.8.2</p>
+                            <ul>
+                                <li>Plugins für Header</li>
+                            </ul>
+                        </div>
+                    </details>
+                </main>
+                <footer>
+                    <p><i data-feather="folder"></i> Projekt: openMoto-webdesk</p>
+                    <p><i data-feather="git-branch"></i> Version: 0.7.5</p>
+                    <p><i data-feather="github"></i> Github: <a href="https://github.com/BIT-TAG/openMoto-webdesk">Repository</a></p>
+                    <p><i data-feather="gitlab"></i> Gitlab: coming soon</p>
+                    <p><i data-feather="monitor"></i> Webpage: <a href="http://open-moto.org">Projekt Webseite</a> (openMoto)</p>
+                    <br>
+                    <p><i data-feather="users"></i> Organisation: BIT-TAG EK</p>
+                    <p><i data-feather="monitor"></i> Webpage: <a href="http://bit-tag.com">BIT-TAG Webseite</a></p>
+                    <p><i data-feather="user"></i> Autor: Dustin Ludwig</p>
+                </footer>
+            </section>
+
+            <section id="Einstellung" data-title="Einstellung">
+                <header>
+                    Dies ist eine Alpha Version, die editierbaren Einstellungen kommen mit der <code>v.0.8</code>
+                </header>
+                <main>
+                    <p>Hier können verschiedene Optionen eingestellt werden.</p>
+                </main>
+            </section>
+
+            <section id="Profil" data-title="Profil">
+                <header>
+                    Dies ist eine Alpha Version, die editierbaren Einstellungen kommen mit der <code>v.0.8</code>
+                </header>
+                <main>
+                    <p>Dies ist die Profilseite.</p>
+                </main>
+            </section>
+
+            <section id="Hilfe" data-title="Hilfe">
+                <header>
+                    Dies ist eine Alpha Version, die editierbaren Einstellungen kommen mit der <code>v.0.8</code>
+                </header>
+                <main>
+                    <p>Hier finden Sie Hilfe zu den verschiedenen Funktionen.</p>
+                </main>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        feather.replace(); // Icons initialisieren
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const sections = document.querySelectorAll('.content section');
+            const buttonContainer = document.getElementById('button-container');
+
+            // IDs und Titel aus den Sektionen extrahieren
+            const sectionData = Array.from(sections).map(section => ({
+                id: section.id,
+                title: section.dataset.title || section.id
+            }));
+
+            // Buttons dynamisch erzeugen
+            sectionData.forEach((section, index) => {
+                const button = document.createElement('button');
+                button.textContent = section.title;
+                button.classList.toggle('active', index === 0); // Erster Button ist standardmäßig aktiv
+                button.addEventListener('click', function () {
+                    // Aktiven Button setzen
+                    document.querySelectorAll('.sidebar button').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    // Alle Sektionen verstecken und nur die ausgewählte zeigen
+                    sections.forEach(sec => sec.classList.remove('active'));
+                    document.getElementById(section.id).classList.add('active');
+                });
+                buttonContainer.appendChild(button);
+            });
+        });
+    </script>
 </body>
 </html>
