@@ -1,0 +1,114 @@
+{
+    "data": [
+      {
+        "group": "Beispiel Gruppe",
+        "panels": [
+          {
+            "buttonText": "Button (Einstellung)",
+            "content": "Das sind die Einstellungen",
+            "icon": "settings",
+            "link": "setting.html",
+            "onClick": "iframeWindow"
+          },
+          {
+            "buttonText": "Link (Startpage)",
+            "icon": "link",
+            "content": "Das ist eine datenschutzfreundliche Suchmaschine",
+            "link": "https://startpage.com"
+          }
+        ]
+      },
+      {
+        "group": "BIT-TAG",
+        "panels": [
+          {
+            "buttonText": "BIT-TAG Webseite",
+            "content": "Das ist die Webseite des Erstellers",
+            "icon": "monitor",
+            "link": "https://bit-tag.com",
+            "onClick": "iframeWindow"
+          },
+          {
+            "buttonText": "BIT-TAG YouTube Kanal",
+            "content": "",
+            "icon": "youtube",
+            "link": "https://www.youtube.com/@BIT-TAG"
+          },
+          {
+            "buttonText": "SEARCH-TAG",
+            "content": "Das ist eine Art Wiki-Seite",
+            "icon": "search",
+            "link": "https://search-tag.org",
+            "onClick": "iframeWindow"
+          },
+          {
+            "buttonText": "DESIGN-TAG",
+            "content": "Hier kannst du alles rund um das Thema Design sehen",
+            "icon": "pen-tool",
+            "link": "https://design-tag.com",
+            "onClick": "iframeWindow"
+          },
+          {
+            "buttonText": "HOST-TAG",
+            "content": "",
+            "icon": "server",
+            "link": "https://host-tag.org",
+            "onClick": "iframeWindow"
+          },
+          {
+            "buttonText": "IT-TAG",
+            "content": "",
+            "icon": "hard-drive",
+            "link": "https://it-tag.org",
+            "onClick": "iframeWindow"
+          },
+          {
+            "buttonText": "SALES-TAG",
+            "content": "",
+            "icon": "dollar-sign",
+            "link": "https://sales-tag.org",
+            "onClick": "iframeWindow"
+          },
+          {
+            "buttonText": "CYBER-TAG",
+            "content": "",
+            "icon": "code",
+            "link": "https://cyber-tag.org",
+            "onClick": "iframeWindow"
+          },
+          {
+            "buttonText": "OPEN-MOTO",
+            "content": "Das ist die Webseite für alle selbstentwickelten OpenSource-Projekte",
+            "icon": "git-branch",
+            "link": "https://open-moto.org",
+            "onClick": "iframeWindow"
+          }
+        ]
+      },
+      {
+        "group": "Linux Guides",
+        "panels": [
+          {
+            "buttonText": "Linux Guides Webseite",
+            "content": "",
+            "icon": "help-circle",
+            "link": "https://www.linuxguides.de/",
+            "onClick": "iframeWindow"
+          },
+          {
+            "buttonText": "LibreWorkspace Webseite",
+            "content": "Das ist der digitale Arbeitsplatz auf OpenSource Software",
+            "icon": "monitor",
+            "link": "https://www.libre-workspace.org/",
+            "onClick": "iframeWindow"
+          },
+          {
+            "buttonText": "Linuxguides YouTube",
+            "content": "",
+            "icon": "youtube",
+            "link": "https://www.youtube.com/@LinuxGuides"
+          }
+        ]
+      }
+    ]
+  }

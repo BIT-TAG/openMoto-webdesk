@@ -8,13 +8,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-
     <!-- Header Content -->
-
     <header>
         <div class="navbar">
-        
             <ul class="menu">
                 <li class="dropdown-container">
                     <div class="setting"><button title="Overview"><i data-feather="grid" aria-placeholder="apps"></i></button></div>
@@ -39,7 +35,6 @@
         </div>
 
         <!-- Sidebar -->
-
         <div class="sidebar">
             <ul class="menu">
                 <!-- Dropdown "Zoom" -->
@@ -91,8 +86,7 @@
         </div>
     </header>
 
-    <!-- Mail Content -->
-
+    <!-- Main Content -->
     <main>
         <!-- Snap Overlays -->
         <div id="left-snap-overlay" class="snap-overlay" aria-hidden="true"></div>
@@ -124,19 +118,16 @@
     </footer>
 
     <script src="https://unpkg.com/feather-icons"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script>
+
         /* =========================================================
            Einbindung von Icons
         ============================================================ */
-
         feather.replace(); // Initialisiere die Icons
 
-    </script>
-
-    <!-- Interact.js einbinden -->
-    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-    <script>
-            // Funktion zum Umschalten der Panel-Inhalte
+                    // Funktion zum Umschalten der Panel-Inhalte
     function togglePanel(element) {
       const panel = element.closest(".panel");
       const allPanels = document.querySelectorAll('.panel');
@@ -354,8 +345,6 @@
         });
       });
     });
-    </script>
-    <script>
 
         /* =========================================================
            Variablen und Initialisierungen
@@ -379,14 +368,6 @@
         };
 
         /* =========================================================
-           External Window
-        ============================================================ */
-
-        const openWindow = (link) => {
-            window.open(link, 'popup', 'width=1000,height=600');
-        }
-
-        /* =========================================================
            Drag- und Resize-Funktionalität
         ============================================================ */
         const makeDraggableResizable = (win) => {
@@ -403,6 +384,11 @@
                     listeners: {
                         start: (event) => {
                             bringToFront(event.target);
+                            const win = event.target;
+                            // Wenn Fenster maximiert oder gesnappt ist, zur vorherigen Größe zurückkehren
+                            if (win.classList.contains('maximized') || win.classList.contains('snapped')) {
+                                restoreWindowSize(win);
+                            }
                         },
                         move: (event) => {
                             const target = event.target;
@@ -467,36 +453,57 @@
             });
         };
 
-        // Aktualisieren der Restriktionen bei Fenstergrößenänderung
-        window.addEventListener('resize', () => {
-            document.querySelectorAll('.window').forEach(win => {
-                interact(win).draggable({
-                    modifiers: [
-                        interact.modifiers.restrictRect({
-                            restriction: mainElement,
-                            endOnly: true
-                        })
-                    ]
-                });
-                interact(win).resizable({
-                    modifiers: [
-                        interact.modifiers.restrictSize({
-                            min: { width: 300, height: 200 },
-                            max: {
-                                width: mainElement.offsetWidth,
-                                height: mainElement.offsetHeight
-                            }
-                        }),
-                        interact.modifiers.restrictEdges({
-                            outer: mainElement
-                        })
-                    ]
-                });
-            });
-        });
+        // Funktion zur Wiederherstellung der Fenstergröße
+        const restoreWindowSize = (win) => {
+            win.classList.remove('maximized', 'snapped');
+            win.style.width = win.getAttribute('data-prev-width') || '1200px';
+            win.style.height = win.getAttribute('data-prev-height') || '800px';
+            win.style.transform = `translate3d(${win.getAttribute('data-prev-x') || 0}px, ${win.getAttribute('data-prev-y') || 0}px, 0)`;
+            win.setAttribute('data-x', win.getAttribute('data-prev-x') || 0);
+            win.setAttribute('data-y', win.getAttribute('data-prev-y') || 0);
+            win.style.top = '';
+            win.style.left = '';
+        };
 
         /* =========================================================
-           Snapping-Funktion
+           Fensterpositionierung anpassen (nur horizontal)
+        ============================================================ */
+        const createWindow = (windowTitle, windowUrl) => {
+            windowCount++;
+            const win = document.createElement('div');
+            win.classList.add('window');
+            win.id = `window${windowCount}`;
+
+            // Leicht versetzte Positionierung (nur horizontal)
+            const offset = (windowCount * 20) % 100; // Modulo, um die Versetzung zu begrenzen
+            win.style.top = `50px`; // Feste vertikale Position
+            win.style.left = `${50 + offset}px`;
+
+            win.style.width = '1200px';
+            win.style.height = '800px';
+            win.innerHTML = `
+                <div class="window-header">
+                    <span><a class="window-a" target="_blank" href="${windowUrl !== 'about:blank' ? windowUrl : '#'}" title="Extern öffnen">${windowTitle}</a></span>
+                    <div class="buttons">
+                        <button class="window-button" onclick="minimizeWindow(event, '${win.id}')">_</button>
+                        <button class="window-button" onclick="maximizeWindow('${win.id}')">□</button>
+                        <button class="window-close" onclick="closeWindow('${win.id}')">✖</button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <iframe src='${windowUrl}' frameborder="0"></iframe>
+                </div>
+                <div class="resize-handle"></div>
+            `;
+            mainElement.appendChild(win);
+            makeDraggableResizable(win);
+            bringToFront(win);
+            saveState();
+            updateTaskCounter();
+        };
+
+        /* =========================================================
+           Anpassung der Snap-Funktion
         ============================================================ */
         const handleWindowSnap = (event) => {
             const target = event.target;
@@ -510,26 +517,64 @@
 
             // Links Snap
             if (x <= edgeThreshold) {
+                // Speichere vorherige Position und Größe
+                saveWindowStateBeforeSnap(target);
                 // Snap to left half
                 target.style.width = (screenWidth / 2) + 'px';
                 target.style.height = (screenHeight) + 'px';
                 target.style.transform = `translate3d(0px, 0px, 0)`;
                 target.setAttribute('data-x', 0);
                 target.setAttribute('data-y', 0);
+                target.classList.add('snapped');
             }
             // Rechts Snap
             else if (x + windowWidth >= screenWidth - edgeThreshold) {
+                // Speichere vorherige Position und Größe
+                saveWindowStateBeforeSnap(target);
                 // Snap to right half
                 target.style.width = (screenWidth / 2) + 'px';
                 target.style.height = (screenHeight) + 'px';
                 target.style.transform = `translate3d(${screenWidth / 2}px, 0px, 0)`;
                 target.setAttribute('data-x', screenWidth / 2);
                 target.setAttribute('data-y', 0);
+                target.classList.add('snapped');
             }
-            // Oben Snap
+            // Oben Snap (Maximieren)
             else if (y <= edgeThreshold) {
-                // Maximiere das Fenster
                 maximizeWindow(target.id);
+            }
+        };
+
+        // Funktion zum Speichern des Fensterzustands vor dem Snap
+        const saveWindowStateBeforeSnap = (win) => {
+            if (!win.classList.contains('snapped') && !win.classList.contains('maximized')) {
+                win.setAttribute('data-prev-x', win.getAttribute('data-x') || 0);
+                win.setAttribute('data-prev-y', win.getAttribute('data-y') || 0);
+                win.setAttribute('data-prev-width', win.style.width);
+                win.setAttribute('data-prev-height', win.style.height);
+            }
+        };
+
+        // Anpassung der Maximierungsfunktion
+        const maximizeWindow = (id) => {
+            const win = document.getElementById(id);
+            if (win) {
+                if (!win.classList.contains('maximized')) {
+                    win.setAttribute('data-prev-x', win.getAttribute('data-x') || 0);
+                    win.setAttribute('data-prev-y', win.getAttribute('data-y') || 0);
+                    win.setAttribute('data-prev-width', win.style.width);
+                    win.setAttribute('data-prev-height', win.style.height);
+                    win.classList.add('maximized');
+                    win.style.transform = '';
+                    win.style.top = '0';
+                    win.style.left = '0';
+                    win.style.width = '100%';
+                    win.style.height = '100%';
+                } else {
+                    restoreWindowSize(win);
+                }
+                bringToFront(win);
+                saveState();
             }
         };
 
@@ -594,35 +639,8 @@
             }
         };
 
-        const maximizeWindow = (id) => {
-            const win = document.getElementById(id);
-            if (win) {
-                if (!win.classList.contains('maximized')) {
-                    win.setAttribute('data-prev-x', win.getAttribute('data-x') || 0);
-                    win.setAttribute('data-prev-y', win.getAttribute('data-y') || 0);
-                    win.setAttribute('data-prev-width', win.style.width);
-                    win.setAttribute('data-prev-height', win.style.height);
-                    win.classList.add('maximized');
-                    win.style.transform = '';
-                    win.style.top = '0';
-                    win.style.left = '0';
-                } else {
-                    win.classList.remove('maximized');
-                    win.style.width = win.getAttribute('data-prev-width') || '1200px';
-                    win.style.height = win.getAttribute('data-prev-height') || '800px';
-                    win.style.transform = `translate3d(${win.getAttribute('data-prev-x') || 0}px, ${win.getAttribute('data-prev-y') || 0}px, 0)`;
-                    win.setAttribute('data-x', win.getAttribute('data-prev-x') || 0);
-                    win.setAttribute('data-y', win.getAttribute('data-prev-y') || 0);
-                    win.style.top = '';
-                    win.style.left = '';
-                }
-                bringToFront(win);
-                saveState();
-            }
-        };
-
         /* =========================================================
-        Taskleiste Management
+           Taskleiste Management
         ============================================================ */
         const addTask = (id, title) => {
             const taskbar = document.getElementById('taskbar');
@@ -672,9 +690,8 @@
             }
         };
 
-
         /* =========================================================
-        Fenster Steuerungsfunktionen
+           Fenster wiederherstellen
         ============================================================ */
         const restoreWindow = (id) => {
             const win = document.getElementById(id);
@@ -688,69 +705,6 @@
                 saveState();
                 updateTaskCounter();
             }
-        };
-
-
-        /* =========================================================
-           Dynamisches Erstellen von Fenstern
-        ============================================================ */
-        const createWindow = (windowTitle, windowUrl) => {
-            windowCount++;
-            const win = document.createElement('div');
-            win.classList.add('window');
-            win.id = `window${windowCount}`;
-
-            // Leicht versetzte Positionierung
-            const offset = (windowCount * 20) % 100; // Modulo, um die Versetzung zu begrenzen
-            win.style.top = `${50 + offset}px`;
-            win.style.left = `${50 + offset}px`;
-
-            win.style.width = '1200px';
-            win.style.height = '800px';
-            win.innerHTML = `
-                <div class="window-header">
-                    <span><a class="window-a" target="_blank" href="${windowUrl !== 'about:blank' ? windowUrl : '#'}" title="Extern öffnen">${windowTitle}</a></span>
-                    <div class="buttons">
-                        <button class="window-button" onclick="minimizeWindow(event, '${win.id}')">_</button>
-                        <button class="window-button" onclick="maximizeWindow('${win.id}')">□</button>
-                        <button class="window-close" onclick="closeWindow('${win.id}')">✖</button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <iframe src='${windowUrl}' frameborder="0"></iframe>
-                </div>
-                <div class="resize-handle"></div>
-            `;
-            mainElement.appendChild(win);
-            makeDraggableResizable(win);
-            bringToFront(win);
-            saveState();
-            updateTaskCounter();
-        };
-
-        /* =========================================================
-           Fenster aus Eingabefeldern erstellen
-        ============================================================ */
-        const createWindowFromInput = (button) => {
-            const winContent = button.closest('.window-content');
-            const titleInput = winContent.querySelector('.title-input');
-            const urlInput = winContent.querySelector('.url-input');
-            const title = titleInput.value.trim() || 'Neues Fenster';
-            let url = urlInput.value.trim() || 'about:blank';
-
-            // Eingabevalidierung
-            try {
-                new URL(url);
-            } catch (_) {
-                alert('Ungültige URL. Bitte geben Sie eine gültige URL ein.');
-                return;
-            }
-
-            createWindow(title, url);
-
-            // Leere die Eingabefelder
-            titleInput.value = '';
-            urlInput.value = '';
         };
 
         /* =========================================================
@@ -885,7 +839,6 @@
         /* =========================================================
            Zoom Funktionalität
         ============================================================ */
-
         const applyZoom = (zoomLevel) => {
             if (zoomLevel < 10) zoomLevel = 10;
             if (zoomLevel > 300) zoomLevel = 300;
@@ -996,7 +949,6 @@
         /* =========================================================
            System Apps
         ============================================================ */
-
         const iframeWindow = (buttonText, link) => {
             const windowTitle = buttonText;
             const windowContent = `
@@ -1017,10 +969,10 @@
 
         const sysSetting = () => {
             const windowTitle = 'Einstellung';
-            const link = 'https://search.tag.org'
+            const link = 'https://search.tag.org';
             const windowContent = `
                 <div>
- 
+
                 </div>
             `;
             sysWindow(windowTitle, windowContent);
@@ -1052,9 +1004,9 @@
             win.classList.add('window');
             win.id = `window${windowCount}`;
 
-            // Leicht versetzte Positionierung
+            // Leicht versetzte Positionierung (nur horizontal)
             const offset = (windowCount * 20) % 100;
-            win.style.top = `${50 + offset}px`;
+            win.style.top = `50px`; // Feste vertikale Position
             win.style.left = `${50 + offset}px`;
 
             win.style.width = '600px';
