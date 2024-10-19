@@ -30,10 +30,10 @@
                     </span>
                 </li>
                 <li>
-                    <button title="Homepage"><i data-feather="home" aria-placeholder="home"></i> Home</button>
+                    <button title="Homepage"><i data-feather="home" aria-placeholder="home"></i> <p>Home</p></button>
                 </li>
                 <li>
-                    <button title="Desktop"><i data-feather="monitor" aria-placeholder="monitor"></i> Desktop</button>
+                    <button title="Desktop"><i data-feather="monitor" aria-placeholder="monitor"></i> <p>Desktop</p></button>
                 </li>
             </ul>
         </div>
@@ -97,7 +97,7 @@
         <!-- Snap Overlays -->
         <div id="left-snap-overlay" class="snap-overlay" aria-hidden="true"></div>
         <div id="right-snap-overlay" class="snap-overlay" aria-hidden="true"></div>
-        <div id="top-snap-overlay" class="snap-overlay" aria-hidden="true"></div>
+        <div id="top-snap-overlay" class="snap-overlay" aria-hidden="false"></div>
         <!-- Fenster Vorlage -->
         <div class="window" id="window1">
             <div class="window-header">
@@ -157,11 +157,13 @@
         {
             buttonText: "Button (Einstellung)",
             content: "Das sind die Einstellugnen",
+            icon: "settings",
             link: "setting.html",
             onClick: "iframeWindow",
         },
         {
             buttonText: "Link (Startpage)",
+            icon: "link",
             content: "Das ist eine Datenschutzfreundliche Suchmachine",
             link: "https://startpage.com",
         },
@@ -173,53 +175,62 @@
         {
             buttonText: "BIT-TAG Webseite",
             content: "Das ist die Webseite es erstellers",
+            icon: "monitor",
             link: "https://bit-tag.com",
             onClick: "iframeWindow",
         },
         {
             buttonText: "BIT-TAG YouTube Kanal",
             content: "",
+            icon: "youtube",
             link: "https://www.youtube.com/@BIT-TAG",
         },
         {
             buttonText: "SEARCH-TAG",
             content: "Das ist eine art Wiki Seite",
+            icon: "search",
             link: "https://search-tag.org",
             onClick: "iframeWindow",
         },
         {
             buttonText: "DESIGN-TAG",
             content: "Hier kannst du alles rund um das Themas Design sehen",
+            icon: "pen-tool",
             link: "https://design-tag.com",
             onClick: "iframeWindow",
         },
         {
             buttonText: "HOST-TAG",
             content: "",
+            icon: "server",
             link: "https://host-tag.org",
             onClick: "iframeWindow",
         },
         {
             buttonText: "IT-TAG",
             content: "",
+            icon: "hard-drive",
             link: "https://it-tag.org",
             onClick: "iframeWindow",
         },
         {
             buttonText: "SALES-TAG",
             content: "",
+            icon: "dollar-sign",
             link: "https://sales-tag.org",
             onClick: "iframeWindow",
         },
         {
             buttonText: "CYBER-TAG",
             content: "",
+            icon: "code",
             link: "https://cyber-tag.org",
             onClick: "iframeWindow",
         },
         {
             buttonText: "OPEN-MOTO",
             content: "Das ist die Webseite für alle selbstentwickelten OpenSurce Projekte",
+            icon: "git-branch",
             link: "https://open-moto.org",
             onClick: "iframeWindow",
         },
@@ -231,18 +242,21 @@
         {
             buttonText: "Linux Guides Webseite",
             content: "",
+            icon: "help-circle",
             link: "https://www.linuxguides.de/",
             onClick: "iframeWindow",
         },
         {
             buttonText: "LibreWorkspace Webseite",
             content: "Das ist der Digitale Arbeitspaltz auf OpenSurce Software",
+            icon: "monitor",
             link: "https://www.libre-workspace.org/",
             onClick: "iframeWindow",
         },
         {
             buttonText: "Linuxguides Youtube",
             content: "",
+            icon: "youtube",
             link: "https://www.youtube.com/@LinuxGuides",
         },
         ],
@@ -259,13 +273,13 @@
         <details>
             <summary>${group}</summary>`;
 
-        panels.forEach(({ buttonText, content, onClick, link }) => {
+        panels.forEach(({ buttonText, content, onClick, link, icon }) => {
         // Bestimmen, ob ein Button oder ein Link angezeigt werden soll
         let actionElement = "";
         if (onClick) {
-            actionElement = `<button onclick="${onClick}('${buttonText}', '${link}')">${buttonText}</button> <span class="icon"><a href="${link}" target="_blank"><i data-feather="link"></button></i></a></span>`;
+            actionElement = `<button onclick="${onClick}('${buttonText}', '${link}')">${buttonText}</button> <span class="icon"><a href="${link}" target="_blank"><i data-feather="link-2"></i></button></a></span>`;
         } else if (link) {
-            actionElement = `<a href="${link}" target="_blank">${buttonText}  <i data-feather="link"></button></i></a>`;
+            actionElement = `<a href="${link}" target="_blank">${buttonText}  <i data-feather="link-2"></button></i></a>`;
         } else {
             actionElement = `<span>${buttonText}</span>`;
         }
@@ -273,7 +287,7 @@
         detailsHtml += `
             <div class="panel">
             <div class="panel-header">
-                ${actionElement}
+                <i data-feather="${icon}"></i>${actionElement}
                 <span class="icon"><button onclick="openWindow('${link}')"><i data-feather="external-link"></i></button></span>
                 <span class="icon end" onclick="togglePanel(this)">
                 <span class="triangle">></span>
