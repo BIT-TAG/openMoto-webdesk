@@ -6,6 +6,65 @@
             window.open(url, 'popup', 'width=600,height=400');
         }
 
+            /* =========================================================
+            Switch Windows
+          ============================================================ */
+
+// Script.js: Anpassung der Button-Erstellung und Event-Listener
+
+document.addEventListener("DOMContentLoaded", function () {
+    const buttonContainer = document.getElementById('button-container');
+
+    // Alle Sektionen mit einer ID sammeln
+    const sections = document.querySelectorAll('.content section[id]');
+
+    // Mapping von Abschnitts-IDs zu Icons
+    const iconMapping = {
+        'Home': 'home',
+        'Desktop': 'monitor',
+        // Weitere Zuordnungen können hier hinzugefügt werden
+    };
+
+    // Buttons dynamisch erstellen mit der Klasse 'switch-button'
+    sections.forEach(section => {
+        const id = section.id;
+        let title = id;
+        let iconName = iconMapping[id] || 'file';
+        let isActive = section.classList.contains('active') ? 'active' : '';
+
+        buttonContainer.innerHTML += `
+        <li>
+            <button class="${isActive} switch-button" data-section="${id}">
+                <i data-feather="${iconName}"></i>
+                <p>${title}</p>
+            </button>
+        </li>
+        `;
+    });
+
+    // Event-Handling für die Switch-Buttons
+    const buttons = buttonContainer.querySelectorAll('button.switch-button');
+    buttons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Aktiven Button setzen
+            buttons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            // Alle Sektionen verstecken und nur die ausgewählte zeigen
+            document.querySelectorAll('.content section').forEach(sec => sec.classList.remove('active'));
+            const sectionId = button.getAttribute('data-section');
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+        });
+    });
+
+    // Feather Icons initialisieren
+    feather.replace();
+});
+
+
         /* =========================================================
             Overview Funtkionen
           ============================================================ */

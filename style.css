@@ -42,6 +42,12 @@
         /* =========================================================
            Allgemeine Styles
         ============================================================ */
+        
+        html {
+            height: 100%;
+            width: 100%;
+        }
+        
         body {
             margin: 0;
             padding: 0;
@@ -50,13 +56,27 @@
             color: var(--text-color);
             font-family: Arial, sans-serif;
             position: relative;
-            height: 100vh;
             transition: transform 0.3s, width 0.3s, height 0.3s, background-color 0.3s, color 0.3s;
         }
 
         a {
             text-decoration: none;
             color: inherit;
+        }
+
+        .content {
+            height: 100%;
+            width: 100%;
+        }
+
+        .content section {
+            display: none;
+            height: 100%;
+            width: 100%;
+        }
+
+        .content section.active {
+            display: block;
         }
 
         /* Media Queries für Responsives Design */

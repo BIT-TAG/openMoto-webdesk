@@ -11,7 +11,7 @@
     <!-- Header Content -->
     <header>
         <div class="navbar">
-            <ul class="menu">
+            <ul class="menu" id="button-container">
                 <li>
                     <span class="bild">
                         <a title="Organisations Logos" href="https://www.bit-tag.com">
@@ -24,12 +24,6 @@
                     <ul class="dropdown" id="homeDropdown">
                         <li><div class="overview"></div></li>
                     </ul>
-                </li>
-                <li>
-                    <button title="Homepage"><i data-feather="home" aria-placeholder="home"></i> <p>Home</p></button>
-                </li>
-                <li>
-                    <button title="Desktop"><i data-feather="monitor" aria-placeholder="monitor"></i> <p>Desktop</p></button>
                 </li>
             </ul>
         </div>
@@ -96,6 +90,12 @@
             }
     </script>
 
+        <div class="content">
+<section id="Home" class="active">
+    <iframe src="home.html" frameborder="0" width="100%" height="100%"></iframe>
+</section>
+
+<section id="Desktop">
     <!-- Main Content -->
     <main>
         <!-- Snap Overlays -->
@@ -110,6 +110,20 @@
             <!-- Minimierte Fenster werden hier hinzugefügt -->
         </div>
     </footer>
+</section>
+</div>
+<style>
+            .content section {
+            display: none;
+        }
+
+        .content section.active {
+            display: block;
+        }
+
+</style>
+
+</div>
 
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
