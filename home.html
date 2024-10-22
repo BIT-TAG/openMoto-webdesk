@@ -16,14 +16,40 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            height: 100vh;
-            background-image: url(hintergrundbild.jpg);
+            min-height: 100vh;
+            background-image: url(/img/hintergrundbild.jpg);
             background-color: gray;
             background-size: cover;
             background-position: center;
+            color: white;
             display: flex;
+            flex-direction: column;
+        }
+
+        /* Header im Stil von UmbrelOS */
+        header {
+            padding: 40px;
+            display: flex;
+            font-size: large;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Hauptcontainer mit vertikaler Ausrichtung */
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            gap: 40px; /* Abstand zwischen den Abschnitten */
+        }
+
+        /* Abschnitt */
+        .section {
+            width: 100%;
+            max-width: 1400px;
         }
 
         /* Hauptbereich */
@@ -33,6 +59,7 @@
             flex-direction: column;
             max-width: 1300px;
             gap: 20px;
+            width: 100%;
         }
 
         /* Widgets */
@@ -40,13 +67,13 @@
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
-            margin: 25px;
+            margin: 25px 0;
         }
 
         .widget {
             background-color: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
+            backdrop-filter: blur(25px);
+            border-radius: 0.3rem;
             padding: 20px;
             width: calc(33.333% - 20px);
             color: #fff;
@@ -54,6 +81,11 @@
             cursor: pointer;
             position: relative;
             overflow: hidden; /* Wichtig für den erweiterten Inhalt */
+            transition: transform 0.3s;
+        }
+
+        .widget:hover {
+            transform: scale(1.05);
         }
 
         .widget h3 {
@@ -64,13 +96,13 @@
             font-size: 14px;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .widget {
                 width: calc(50% - 20px);
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             .widget {
                 width: 100%;
             }
@@ -83,16 +115,15 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 80%;
-            height: 80%;
-            width: 80%;
             height: auto;
             z-index: 1000;
             padding: 30px;
             color: #000;
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: rgba(255, 255, 255, 0.7);
             cursor: default;
             overflow: auto;
-            border-radius: 10px;
+            border-radius: 0.3rem;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
         }
 
         .widget .close-btn {
@@ -111,31 +142,72 @@
     </style>
 </head>
 <body>
-    <!-- Hauptinhalt -->
-    <div class="main-content">
-        <div class="widgets">
-            <div class="widget" data-widget="system-status">
-                <h3>System Status</h3>
-                <p>Alles läuft reibungslos!</p>
+    <!-- Header -->
+    <header>
+        Guten Tag, Max Mustermann
+    </header>
+
+    <!-- Hauptcontainer mit vertikalen Abschnitten -->
+    <div class="container">
+        <!-- Erster Abschnitt -->
+        <section class="section">
+            <div class="main-content">
+                <div class="widgets">
+                    <div class="widget" data-widget="system-status">
+                        <h3>System Status</h3>
+                        <p>Alles läuft reibungslos!</p>
+                    </div>
+                    <div class="widget" data-widget="netzwerk">
+                        <h3>Netzwerk</h3>
+                        <p>Verbindung: Stabil</p>
+                    </div>
+                    <div class="widget" data-widget="speicherplatz">
+                        <h3>Speicherplatz</h3>
+                        <p>Verfügbar: 120 GB</p>
+                    </div>
+                    <!-- Weitere Widgets können hier hinzugefügt werden -->
+                    <div class="widget" data-widget="prozessor">
+                        <h3>Prozessor</h3>
+                        <p>Auslastung: 35%</p>
+                    </div>
+                    <div class="widget" data-widget="arbeitsspeicher">
+                        <h3>Arbeitsspeicher</h3>
+                        <p>Belegt: 4 GB von 16 GB</p>
+                    </div>
+                </div>
             </div>
-            <div class="widget" data-widget="netzwerk">
-                <h3>Netzwerk</h3>
-                <p>Verbindung: Stabil</p>
+        </section>
+
+        <!-- Zweiter Abschnitt -->
+        <section class="section">
+            <div class="main-content">
+                <div class="widgets">
+                    <div class="widget" data-widget="system-status">
+                        <h3>System Status</h3>
+                        <p>Alles läuft reibungslos!</p>
+                    </div>
+                    <div class="widget" data-widget="netzwerk">
+                        <h3>Netzwerk</h3>
+                        <p>Verbindung: Stabil</p>
+                    </div>
+                    <div class="widget" data-widget="speicherplatz">
+                        <h3>Speicherplatz</h3>
+                        <p>Verfügbar: 120 GB</p>
+                    </div>
+                    <!-- Weitere Widgets können hier hinzugefügt werden -->
+                    <div class="widget" data-widget="prozessor">
+                        <h3>Prozessor</h3>
+                        <p>Auslastung: 35%</p>
+                    </div>
+                    <div class="widget" data-widget="arbeitsspeicher">
+                        <h3>Arbeitsspeicher</h3>
+                        <p>Belegt: 4 GB von 16 GB</p>
+                    </div>
+                </div>
             </div>
-            <div class="widget" data-widget="speicherplatz">
-                <h3>Speicherplatz</h3>
-                <p>Verfügbar: 120 GB</p>
-            </div>
-            <!-- Weitere Widgets können hier hinzugefügt werden -->
-            <div class="widget" data-widget="prozessor">
-                <h3>Prozessor</h3>
-                <p>Auslastung: 35%</p>
-            </div>
-            <div class="widget" data-widget="arbeitsspeicher">
-                <h3>Arbeitsspeicher</h3>
-                <p>Belegt: 4 GB von 16 GB</p>
-            </div>
-        </div>
+        </section>
+
+        <!-- Weitere Abschnitte können hier hinzugefügt werden -->
     </div>
 
     <!-- JavaScript -->

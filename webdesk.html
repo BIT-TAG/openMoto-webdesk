@@ -12,18 +12,18 @@
     <header>
         <div class="navbar">
             <ul class="menu" id="button-container">
+                <li class="dropdown-container">
+                    <div class="setting"><button title="Overview"><i data-feather="grid" aria-placeholder="apps"></i></button></div>
+                    <ul class="dropdown" id="homeDropdown">
+                        <li><div class="overview"></div></li>
+                    </ul>
+                </li>
                 <li>
                     <span class="bild">
                         <a title="Organisations Logos" href="https://www.bit-tag.com">
                             <img src="img/big-logo.png" height="100px" alt="Organisation Logo">
                         </a>
                     </span>
-                </li>
-                <li class="dropdown-container">
-                    <div class="setting"><button title="Overview"><i data-feather="grid" aria-placeholder="apps"></i></button></div>
-                    <ul class="dropdown" id="homeDropdown">
-                        <li><div class="overview"></div></li>
-                    </ul>
                 </li>
             </ul>
         </div>
@@ -111,18 +111,6 @@
         </div>
     </footer>
 </section>
-</div>
-<style>
-            .content section {
-            display: none;
-        }
-
-        .content section.active {
-            display: block;
-        }
-
-</style>
-
 </div>
 
     <script src="https://unpkg.com/feather-icons"></script>
