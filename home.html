@@ -66,7 +66,7 @@
             width: 100%;
         }
 
-        /* Widgets */
+        /* Widgets und Apps */
         .widgets {
             display: flex;
             gap: 20px;
@@ -74,6 +74,7 @@
             margin: 25px 0;
         }
 
+        /* Widgets */
         .widget {
             background-color: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(25px);
@@ -85,60 +86,112 @@
             cursor: pointer;
             position: relative;
             overflow: hidden; /* Wichtig für den erweiterten Inhalt */
-            transition: transform 0.3s;
+            transition: transform 0.3s, background-color 0.3s;
         }
 
         .widget:hover {
             transform: scale(1.05);
+            background-color: rgba(255, 255, 255, 0.4);
         }
 
-        .widget h3 {
-            margin-bottom: 15px;
+        /* Apps */
+        .app {
+            background-color: rgba(0, 123, 255, 0.3); /* Unterschiedliche Farbe für Apps */
+            border-radius: 0.3rem;
+            padding: 10px;
+            width: 100px;
+            height: 100px;
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, background-color 0.3s;
         }
 
-        .widget p {
+        .app:hover {
+            transform: scale(1.1);
+            background-color: rgba(0, 123, 255, 0.4);
+        }
+
+        .app img {
+            max-width: 60%;
+            max-height: 60%;
+            margin-bottom: 5px;
+        }
+
+        .app p {
             font-size: 14px;
+            text-align: center;
         }
 
         @media (max-width: 1024px) {
-            .widget {
+            .widget, .app {
                 width: calc(50% - 20px);
+            }
+            .app {
+                width: 80px;
+                height: 80px;
             }
         }
 
         @media (max-width: 768px) {
-            .widget {
+            .widget, .app {
                 width: 100%;
+            }
+            .app {
+                width: 60px;
+                height: 60px;
             }
         }
 
-        /* Erweiterter Inhalt */
-        .widget.expanded {
+        /* Overlay für Popover */
+        .overlay {
+            display: none;
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        /* Popover-Modal */
+        .popover {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(25px);
+            color: #000;
+            border-radius: 0.3rem;
+            padding: 20px;
             width: 80%;
             height: 80%;
-            z-index: 1000;
-            padding: 30px; 
-            color: #000;
-            background-color: rgba(255, 255, 255, 0.7);
-            cursor: default;
-            overflow: auto;
-            border-radius: 0.3rem;
             box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            position: relative;
+            transform: scale(0);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        .widget .close-btn {
-            display: none;
+        .popover.active {
+            transform: scale(1);
+            opacity: 1;
         }
 
-        .widget.expanded .close-btn {
+        .close-btn {
             display: block;
             position: absolute;
-            top: 15px;
-            right: 20px;
+            top: 10px;
+            right: 15px;
             font-size: 24px;
             cursor: pointer;
             color: #000;
@@ -152,171 +205,201 @@
     </header>
 
     <!-- Hauptcontainer mit vertikalen Abschnitten -->
-    <div class="container">
-        <!-- Erster Abschnitt -->
-        <section class="section">
-            <div class="main-content">
-                <div class="widgets">
-                    <div class="widget" data-widget="system-status">
-                        <h3>System Status</h3>
-                        <p>Alles läuft reibungslos!</p>
-                    </div>
-                    <div class="widget" data-widget="netzwerk">
-                        <h3>Netzwerk</h3>
-                        <p>Verbindung: Stabil</p>
-                    </div>
-                    <div class="widget" data-widget="speicherplatz">
-                        <h3>Speicherplatz</h3>
-                        <p>Verfügbar: 120 GB</p>
-                    </div>
-                    <!-- Weitere Widgets können hier hinzugefügt werden -->
-                    <div class="widget" data-widget="prozessor">
-                        <h3>Prozessor</h3>
-                        <p>Auslastung: 35%</p>
-                    </div>
-                    <div class="widget" data-widget="arbeitsspeicher">
-                        <h3>Arbeitsspeicher</h3>
-                        <p>Belegt: 4 GB von 16 GB</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div class="container" id="main-container">
+        <!-- Dynamisch generierte Sektionen werden hier eingefügt -->
+    </div>
 
-        <!-- Zweiter Abschnitt -->
-        <section class="section">
-            <div class="main-content">
-                <div class="widgets">
-                    <div class="widget" data-widget="system-status">
-                        <h3>System Status</h3>
-                        <p>Alles läuft reibungslos!</p>
-                    </div>
-                    <div class="widget" data-widget="netzwerk">
-                        <h3>Netzwerk</h3>
-                        <p>Verbindung: Stabil</p>
-                    </div>
-                    <div class="widget" data-widget="speicherplatz">
-                        <h3>Speicherplatz</h3>
-                        <p>Verfügbar: 120 GB</p>
-                    </div>
-                    <!-- Weitere Widgets können hier hinzugefügt werden -->
-                    <div class="widget" data-widget="prozessor">
-                        <h3>Prozessor</h3>
-                        <p>Auslastung: 35%</p>
-                    </div>
-                    <div class="widget" data-widget="arbeitsspeicher">
-                        <h3>Arbeitsspeicher</h3>
-                        <p>Belegt: 4 GB von 16 GB</p>
-                    </div>
-                </div>
+    <!-- Overlay und Popover Modal -->
+    <div class="overlay" id="overlay">
+        <div class="popover" id="popover">
+            <span class="close-btn" id="close-btn">&times;</span>
+            <div id="popover-content">
+                <!-- Erweiterter Inhalt wird hier eingefügt -->
             </div>
-        </section>
-
-        <!-- Weitere Abschnitte können hier hinzugefügt werden -->
+        </div>
     </div>
 
     <!-- JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
-        const widgets = document.querySelectorAll('.widget');
-        let isAnimating = false; // Verhindert mehrfache Animationen
-
-        widgets.forEach(widget => {
-            widget.addEventListener('click', () => {
-                if (isAnimating || widget.classList.contains('expanded')) return;
-                isAnimating = true;
-
-                // Inhalt erweitern
-                const widgetType = widget.getAttribute('data-widget');
-                let content = '';
-
-                switch(widgetType) {
-                    case 'system-status':
-                        content = '<h2>System Status Details</h2><p>Hier sind weitere Informationen zum Systemstatus...</p>';
-                        break;
-                    case 'netzwerk':
-                        content = '<h2>Netzwerk Details</h2><p>Hier sind weitere Informationen zum Netzwerk...</p>';
-                        break;
-                    case 'speicherplatz':
-                        content = '<h2>Speicherplatz Details</h2><p>Hier sind weitere Informationen zum Speicherplatz...</p>';
-                        break;
-                    case 'prozessor':
-                        content = '<h2>Prozessor Details</h2><p>Hier sind weitere Informationen zum Prozessor...</p>';
-                        break;
-                    case 'arbeitsspeicher':
-                        content = '<h2>Arbeitsspeicher Details</h2><p>Hier sind weitere Informationen zum Arbeitsspeicher...</p>';
-                        break;
-                    default:
-                        content = '<h2>Details</h2><p>Weitere Informationen...</p>';
-                }
-
-                // Originalinhalt speichern
-                widget.setAttribute('data-original-content', widget.innerHTML);
-
-                // Close Button hinzufügen
-                widget.innerHTML = '<span class="close-btn">&times;</span>' + content;
-
-                // Position und Größe ermitteln
-                const rect = widget.getBoundingClientRect();
-                const bodyRect = document.body.getBoundingClientRect();
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-                // Startwerte setzen
-                gsap.set(widget, {
-                    position: 'fixed',
-                    top: rect.top + scrollTop,
-                    left: rect.left,
-                    width: rect.width,
-                    height: rect.height,
-                    zIndex: 1000,
-                    xPercent: 0,
-                    yPercent: 0
-                });
-
-                // Klasse hinzufügen
-                widget.classList.add('expanded');
-
-                // Animation starten
-                gsap.to(widget, {
-                    duration: 0.5,
-                    ease: 'power2.inOut',
-                    top: '50%',
-                    left: '50%',
-                    width: '80%',
-                    height: '80%',
-                    xPercent: -50,
-                    yPercent: -50,
-                    onComplete: () => {
-                        isAnimating = false;
-                    }
-                });
-
-                // Event Listener für Close Button
-                const closeBtn = widget.querySelector('.close-btn');
-                closeBtn.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Verhindert erneutes Triggern des Klick-Events
-                    if (isAnimating) return;
-                    isAnimating = true;
-
-                    // Animation zurück zum ursprünglichen Zustand
-                    gsap.to(widget, {
-                        duration: 0.5,
-                        ease: 'power2.inOut',
-                        top: rect.top + scrollTop,
-                        left: rect.left,
-                        width: rect.width,
-                        height: rect.height,
-                        xPercent: 0,
-                        yPercent: 0,
-                        onComplete: () => {
-                            // Originalinhalt wiederherstellen
-                            widget.innerHTML = widget.getAttribute('data-original-content');
-                            widget.classList.remove('expanded');
-                            gsap.set(widget, { position: '', top: '', left: '', width: '', height: '', zIndex: '', xPercent: '', yPercent: '' });
-                            isAnimating = false;
+        // Beispiel JSON-Daten mit vollständigem HTML-Inhalt und Apps als Buttons
+        const data = {
+            "sections": [
+                {
+                    "title": "Systemübersicht",
+                    "components": [
+                        {
+                            "type": "widget",
+                            "data": {
+                                "widget": "system-status",
+                                "html": "<h3>System Status</h3><p>Alles läuft reibungslos!</p>",
+                                "expandedHtml": "<h2>System Status Details</h2><p>Hier sind weitere Informationen zum Systemstatus...</p>"
+                            }
+                        },
+                        {
+                            "type": "widget",
+                            "data": {
+                                "widget": "netzwerk",
+                                "html": "<h3>Netzwerk</h3><p>Verbindung: Stabil</p>",
+                                "expandedHtml": "<h2>Netzwerk Details</h2><p>Hier sind weitere Informationen zum Netzwerk...</p>"
+                            }
+                        },
+                        {
+                            "type": "app",
+                            "data": {
+                                "app": "weather",
+                                "html": "<p>Wetter</p>",
+                                "logo": "https://via.placeholder.com/100?text=Wetter",
+                                "action": "openWeather"
+                            }
                         }
-                    });
+                    ]
+                },
+                {
+                    "title": "Leistung",
+                    "components": [
+                        {
+                            "type": "widget",
+                            "data": {
+                                "widget": "prozessor",
+                                "html": "<h3>Prozessor</h3><p>Auslastung: 35%</p>",
+                                "expandedHtml": "<h2>Prozessor Details</h2><p>Hier sind weitere Informationen zum Prozessor...</p>"
+                            }
+                        },
+                        {
+                            "type": "app",
+                            "data": {
+                                "app": "calendar",
+                                "html": "<p>Kalender</p>",
+                                "logo": "https://via.placeholder.com/100?text=Kalender",
+                                "action": "openCalendar"
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const container = document.getElementById('main-container');
+        const overlay = document.getElementById('overlay');
+        const popover = document.getElementById('popover');
+        const popoverContent = document.getElementById('popover-content');
+        const closeBtn = document.getElementById('close-btn');
+
+        // Funktion zum Erstellen von Widgets und Apps
+        function createComponent(component) {
+            if (component.type === 'widget') {
+                const div = document.createElement('div');
+                div.classList.add('widget');
+                div.setAttribute('data-widget', component.data.widget);
+
+                // Setzen des HTML-Inhalts direkt aus der JSON
+                div.innerHTML = component.data.html;
+
+                // Event Listener für erweiterte Ansicht hinzufügen
+                div.addEventListener('click', (e) => {
+                    // Verhindert das Klicken auf den Close-Button auszulösen
+                    if (e.target.classList.contains('close-btn')) return;
+                    openPopover(component.data.expandedHtml);
                 });
+
+                return div;
+            } else if (component.type === 'app') {
+                const div = document.createElement('div');
+                div.classList.add('app');
+                div.setAttribute('data-app', component.data.app);
+
+                // Setzen des HTML-Inhalts und Hinzufügen des Logos
+                div.innerHTML = `
+                    <img src="${component.data.logo}" alt="${component.data.app} Logo">
+                    ${component.data.html}
+                `;
+
+                // Event Listener für App-Funktion hinzufügen
+                div.addEventListener('click', (e) => {
+                    // Verhindert das Auslösen der Widget-Click-Events, falls überlappend
+                    e.stopPropagation();
+                    executeAppAction(component.data.action);
+                });
+
+                return div;
+            }
+        }
+
+        // Funktion zum Erstellen von Sektionen
+        function createSection(section) {
+            const sectionElement = document.createElement('section');
+            sectionElement.classList.add('section');
+
+            const mainContent = document.createElement('div');
+            mainContent.classList.add('main-content');
+
+            const widgetsContainer = document.createElement('div');
+            widgetsContainer.classList.add('widgets');
+
+            section.components.forEach(component => {
+                const componentElement = createComponent(component);
+                widgetsContainer.appendChild(componentElement);
             });
+
+            mainContent.appendChild(widgetsContainer);
+            sectionElement.appendChild(mainContent);
+
+            return sectionElement;
+        }
+
+        // Sektionen aus JSON erstellen und hinzufügen
+        data.sections.forEach(section => {
+            const sectionElement = createSection(section);
+            container.appendChild(sectionElement);
+        });
+
+        // Funktion zum Ausführen von App-Aktionen
+        function executeAppAction(action) {
+            if (typeof window[action] === 'function') {
+                window[action]();
+            } else {
+                console.warn(`Funktion "${action}" ist nicht definiert.`);
+            }
+        }
+
+        // Beispiel-Funktionen für Apps
+        function openWeather() {
+            alert('Wetter-App geöffnet!');
+            // Hier können Sie weitere Aktionen hinzufügen, z.B. eine neue Seite laden oder ein Modal öffnen
+        }
+
+        function openCalendar() {
+            alert('Kalender-App geöffnet!');
+            // Hier können Sie weitere Aktionen hinzufügen, z.B. eine neue Seite laden oder ein Modal öffnen
+        }
+
+        // Funktion zum Öffnen des Popovers
+        function openPopover(content) {
+            popoverContent.innerHTML = content;
+            overlay.classList.add('active');
+            popover.classList.add('active');
+            gsap.fromTo(popover, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'power1.out' });
+        }
+
+        // Funktion zum Schließen des Popovers
+        function closePopover() {
+            gsap.to(popover, { scale: 0, opacity: 0, duration: 0.3, ease: 'power1.in', onComplete: () => {
+                popover.classList.remove('active');
+                overlay.classList.remove('active');
+            }});
+        }
+
+        // Event Listener für Close-Button im Popover
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Verhindert das Auslösen anderer Click-Events
+            closePopover();
+        });
+
+        // Event Listener für Klick außerhalb des Popovers zum Schließen
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                closePopover();
+            }
         });
     </script>
 </body>

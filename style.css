@@ -207,7 +207,7 @@
            Taskleiste Styles
         ============================================================ */
         .taskbar {
-            border: var(--border);
+            border-top: var(--border);
             z-index: 1000;
             display: flex;
             align-items: center;
@@ -360,7 +360,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px;
+            padding: var(--padding);
+            padding-left: calc(var(--padding)*3);
+            padding-right: calc(var(--padding)*3);
             height: 50px;
             border-bottom: var(--border);
             background-color: var(--background-color);
