@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" href="img/small-logo.png">
-    <title>WebDesk (Alpha)</title>
+    <title>WebDesk (Beta)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,12 +12,7 @@
     <header>
         <div class="navbar">
             <ul class="menu" id="button-container">
-                <li class="dropdown-container">
-                    <div class="setting"><button title="Overview"><i data-feather="grid" aria-placeholder="apps"></i></button></div>
-                    <ul class="dropdown" id="homeDropdown">
-                        <li><div class="overview"></div></li>
-                    </ul>
-                </li>
+
                 <li>
                     <span class="bild">
                         <a title="Organisations Logos" href="https://www.bit-tag.com">
@@ -32,47 +27,46 @@
         <div class="sidebar">
             <ul class="menu">
                 <!-- Dropdown "Zoom" -->
-                <li>
-                    <button title="Einstellungen" class="setting"><i data-feather="settings" aria-placeholder="Settings"></i></button>
-                    <ul class="dropdown">
-                        <li><button id="themeToggle"><i data-feather="moon" aria-placeholder="dark/light"></i></button></li>
+                <li class="dropdown-container">
+                    <div class="setting"><button title="Overview"><i data-feather="grid" aria-placeholder="apps"></i></button></div>
+                    <ul class="dropdown" id="homeDropdown">
+                        <li><div class="overview"></div></li>
                         <li>
-                            <button>Zoom</button>
-                            <ul class="dropdown-right">
-                                <li class="dropdown-content">
-                                    <ul>
-                                        <li><button class="zoom-option" data-zoom="70">70%</button></li>
-                                        <li><button class="zoom-option" data-zoom="85">85%</button></li>
-                                        <li><button class="zoom-option" data-zoom="100">100%</button></li>
-                                        <li><button class="zoom-option" data-zoom="115">115%</button></li>
-                                        <li><button class="zoom-option" data-zoom="130">130%</button></li>
-                                        <li>
-                                            <div class="custom-zoom">
-                                                <input type="number" id="customZoomInput" min="10" max="300" step="10" placeholder="%" aria-label="Benutzerdefinierter Zoom">
-                                                <button id="applyCustomZoom" class="button-back">Anwenden</button>
-                                            </div>
+                            <button title="Einstellungen" class="setting"><i data-feather="settings" aria-placeholder="Settings"></i></button>
+                            <ul class="dropdown">
+                                <li><button id="themeToggle"><i data-feather="moon" aria-placeholder="dark/light"></i></button></li>
+                                <li>
+                                    <button>Zoom</button>
+                                    <ul class="dropdown-right">
+                                        <li class="dropdown-content">
+                                            <ul>
+                                                <li><button class="zoom-option" data-zoom="70">70%</button></li>
+                                                <li><button class="zoom-option" data-zoom="85">85%</button></li>
+                                                <li><button class="zoom-option" data-zoom="100">100%</button></li>
+                                                <li><button class="zoom-option" data-zoom="115">115%</button></li>
+                                                <li><button class="zoom-option" data-zoom="130">130%</button></li>
+                                                <li>
+                                                    <div class="custom-zoom">
+                                                        <input type="number" id="customZoomInput" min="10" max="300" step="10" placeholder="%" aria-label="Benutzerdefinierter Zoom">
+                                                        <button id="applyCustomZoom" class="button-back">Anwenden</button>
+                                                    </div>
+                                                </li>
+                                            </ul>
                                         </li>
                                     </ul>
                                 </li>
+                                <li><button onclick="sysSetting()">Einstellung</button></li>
                             </ul>
                         </li>
-                        <li><button onclick="sysSetting()">Einstellung</button></li>
-                    </ul>
-                </li>
-                <li>
-                    <button title="Support" class="setting"><i data-feather="help-circle" aria-placeholder="Support"></i></button>
-                    <ul class="dropdown">
-                        <li><button id="themeToggle">Wordpress</button></li>
-                        <li><button id="themeToggle">Nextcloud</button></li>
-                        <li><button id="themeToggle">ERP-Next</button></li>
-                        <li><button onclick="sysSupport()">Support</button></li>
-                    </ul>
-                </li>
-                <li>
-                    <button id="taskCounter">Fenster:</button>
-                    <ul class="dropdown" id="windowList">
-                        <!-- Dynamisch gefüllte Liste der Fenster -->
-                        <li><button id="closeAllButton">Alles schließen</button></li>
+                        <li>
+                            <button title="Support" class="setting"><i data-feather="help-circle" aria-placeholder="Support"></i></button>
+                            <ul class="dropdown">
+                                <li><button id="themeToggle">Wordpress</button></li>
+                                <li><button id="themeToggle">Nextcloud</button></li>
+                                <li><button id="themeToggle">ERP-Next</button></li>
+                                <li><button onclick="sysSupport()">Support</button></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li><button class="login-button" onclick="sysLogin()">Anmelden</button></li>
@@ -116,7 +110,5 @@
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script src="script.js"></script>
-
-    <script>sysSetting()</script>
 </body>
 </html>

@@ -20,26 +20,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Mapping von Abschnitts-IDs zu Icons
     const iconMapping = {
-        'Home': 'home',
-        'Desktop': 'monitor',
-        // Weitere Zuordnungen können hier hinzugefügt werden
-    };
+        "Home": {
+            "name": "Home (Alpha)",
+            "icon": "home",
+            "type": "page"
+        },
+        "Desktop": {
+            "name": "Desktop (Beta)",
+            "icon": "monitor",
+            "type": "desktop"
+        }
+    }
 
     // Buttons dynamisch erstellen mit der Klasse 'switch-button'
     sections.forEach(section => {
         const id = section.id;
         let title = id;
-        let iconName = iconMapping[id] || 'file';
+        let iconData = iconMapping[id] || { icon: 'file', type: 'page' };
+        let iconName = iconData.icon;
         let isActive = section.classList.contains('active') ? 'active' : '';
 
-        buttonContainer.innerHTML += `
-        <li>
-            <button class="${isActive} switch-button" data-section="${id}">
-                <i data-feather="${iconName}"></i>
-                <p>${title}</p>
-            </button>
-        </li>
-        `;
+        // if-else Abfrage, um den Button entsprechend dem Typ zu erstellen
+        if (iconData.type === 'desktop') {
+            buttonContainer.innerHTML += `
+            <li>
+                <button id="taskCounter" class="${isActive} switch-button" data-section="${id}">
+                    <i data-feather="${iconName}"></i>
+                    <p>${title} <span id="desktopCounter">0</span></p>
+                </button>
+                <ul class="dropdown" id="windowList">
+                    <!-- Dynamisch gefüllte Liste der Fenster -->
+                    <li><button id="closeAllButton">Alles schließen</button></li>
+                </ul>
+            </li>
+            `;
+        } else {
+            buttonContainer.innerHTML += `
+            <li>
+                <button class="${isActive} switch-button" data-section="${id}">
+                    <i data-feather="${iconName}"></i>
+                    <p>${title}</p>
+                </button>
+            </li>
+            `;
+        }
     });
 
     // Event-Handling für die Switch-Buttons
@@ -62,141 +86,100 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Feather Icons initialisieren
     feather.replace();
-});
 
+    // Initialisierung des Task Counters
+    updateTaskCounter();
+});
 
         /* =========================================================
             Overview Funtkionen
           ============================================================ */
 
         // Funktion zum Umschalten der Panel-Inhalte
-            function togglePanel(element) {
-                const panel = element.closest(".panel");
-                const allPanels = document.querySelectorAll('.panel');
-            
-                allPanels.forEach(p => {
-                if (p !== panel) {
-                    p.classList.remove('open');
-                }
-                });
-            
-                panel.classList.toggle("open");
+        function togglePanel(element) {
+            const panel = element.closest(".panel");
+            const allPanels = document.querySelectorAll('.panel');
+        
+            allPanels.forEach(p => {
+            if (p !== panel) {
+                p.classList.remove('open');
             }
+            });
+        
+            panel.classList.toggle("open");
+        }
+        
+        // Funktion zum Erzeugen der Übersicht aus den Datenobjekten
+        function generateOverview(data) {
+            const overviewDiv = document.querySelector(".overview");
+            let html = `
+            <h2>Overview</h2>
             
-            // Funktion zum Erzeugen der Übersicht aus den Datenobjekten
-            function generateOverview(data) {
-                const overviewDiv = document.querySelector(".overview");
-                let html = "";
-            
-                data.forEach(({ group, panels }) => {
-                let detailsHtml = `
-                <details>
-                    <summary>${group}</summary>`;
-            
-                panels.forEach(({ buttonText, content, onClick, link, icon }) => {
-                    // Bestimmen, ob ein Button oder ein Link angezeigt werden soll
-                    let actionElement = "";
-                    if (onClick) {
-                    actionElement = `<button onclick="${onClick}('${buttonText}', '${link}')">${buttonText}</button> <span class="icon"><a href="${link}" target="_blank"><i data-feather="link-2"></i></a></span>`;
-                    } else if (link) {
-                    actionElement = `<a href="${link}" target="_blank">${buttonText}  <i data-feather="link-2"></i></a>`;
-                    } else {
-                    actionElement = `<span>${buttonText}</span>`;
-                    }
-            
-                    detailsHtml += `
-                    <div class="panel">
-                    <div class="panel-header">
-                        <i data-feather="${icon}"></i>${actionElement}
-                        <span class="icon"><button onclick="openWindow('${link}')"><i data-feather="external-link"></i></button></span>
-                        <span class="icon end" onclick="togglePanel(this)">
-                        <span class="triangle">></span>
-                        </span>
-                    </div>
-                    <div class="panel-content">
-                        <div>${content}</div>
-                    </div>
-                    </div>`;
-                });
-            
+            `;
+        
+            data.forEach(({ group, panels }) => {
+            let detailsHtml = `
+            <details>
+                <summary>${group}</summary>`;
+        
+            panels.forEach(({ buttonText, content, onClick, link, icon }) => {
+                // Bestimmen, ob ein Button oder ein Link angezeigt werden soll
+                let actionElement = "";
+                if (onClick) {
+                actionElement = `<button onclick="${onClick}('${buttonText}', '${link}')">${buttonText}</button> <span class="icon"><a href="${link}" target="_blank"><i data-feather="link-2"></i></a></span>`;
+                } else if (link) {
+                actionElement = `<a href="${link}" target="_blank">${buttonText}  <i data-feather="link-2"></i></a>`;
+                } else {
+                actionElement = `<span>${buttonText}</span>`;
+                }
+        
                 detailsHtml += `
-                </details>`;
-            
-                html += detailsHtml;
-                });
-            
-                overviewDiv.innerHTML = html;
-            
-                feather.replace();
+                <div class="panel">
+                <div class="panel-header">
+                    <i data-feather="${icon}"></i>${actionElement}
+                    <span class="icon"><button onclick="openWindow('${link}')"><i data-feather="external-link"></i></button></span>
+                    <span class="icon end" onclick="togglePanel(this)">
+                    <span class="triangle">></span>
+                    </span>
+                </div>
+                <div class="panel-content">
+                    <div>${content}</div>
+                </div>
+                </div>`;
+            });
+        
+            detailsHtml += `
+            </details>`;
+        
+            html += detailsHtml;
+
+            });
+        
+            overviewDiv.innerHTML = html;
+        
+            feather.replace();
+        }
+        
+        // Funktion zum Schließen aller Panels außer dem aktuellen
+        function closeOtherPanels(currentPanel) {
+            const allPanels = document.querySelectorAll('.panel');
+            allPanels.forEach(panel => {
+            if (panel !== currentPanel) {
+                panel.classList.remove('open');
             }
-            
-            // Funktion zum Schließen aller Panels außer dem aktuellen
-            function closeOtherPanels(currentPanel) {
-                const allPanels = document.querySelectorAll('.panel');
-                allPanels.forEach(panel => {
-                if (panel !== currentPanel) {
-                    panel.classList.remove('open');
-                }
-                });
-            }
-            
-            // Initialisieren der Übersicht und Hinzufügen der Event-Listener
-            document.addEventListener('DOMContentLoaded', () => {
-                // Laden der Daten aus der config.json
-                fetch('config.json')
-                .then(response => response.json())
-                .then(config => {
-                    const data = config.data;
-                    generateOverview(data);
-            
-                    // Optional: Wenn du möchtest, dass beim Öffnen eines Details innerhalb einer Gruppe alle anderen Gruppen geschlossen werden
-                    const allDetails = document.querySelectorAll('.overview details');
-                    allDetails.forEach(details => {
-                    details.addEventListener('toggle', function() {
-                        if (this.open) {
-                        allDetails.forEach(d => {
-                            if (d !== this) {
-                            d.removeAttribute('open');
-                            }
-                        });
-                        }
-                    });
-                    });
-                })
-                .catch(error => {
-                    console.error('Fehler beim Laden der config.json:', error);
-                });
-            });   
+            });
+        }
         
-                /* =========================================================
-                    Einbindung von Icons
-                ============================================================ */
-                feather.replace(); // Initialisiere die Icons
+        // Initialisieren der Übersicht und Hinzufügen der Event-Listener
+        document.addEventListener('DOMContentLoaded', () => {
+            // Laden der Daten aus der config.json
+            fetch('config.json')
+            .then(response => response.json())
+            .then(config => {
+                const data = config.data;
+                generateOverview(data);
         
-            // Beispielhafte Definition der Funktion togglePanel
-            function togglePanel(element) {
-            const panelContent = element.parentElement.nextElementSibling;
-            panelContent.style.display =
-                panelContent.style.display === "none" ? "block" : "none";
-            const triangle = element.querySelector(".triangle");
-            triangle.textContent = triangle.textContent === ">" ? "v" : ">";
-            }
-        
-        
-            // Funktion zum Schließen aller Panels außer dem aktuellen
-            function closeOtherPanels(currentPanel) {
-                const allPanels = document.querySelectorAll('.panel');
-                allPanels.forEach(panel => {
-                if (panel !== currentPanel) {
-                    panel.classList.remove('open');
-                }
-                });
-            }
-        
-            // Initialisieren der Übersicht und Hinzufügen der Event-Listener
-            document.addEventListener('DOMContentLoaded', () => {
-        
-                // Optional: Wenn Sie möchten, dass beim Öffnen eines Details innerhalb einer Gruppe alle anderen Gruppen geschlossen werden
+                // Optional: Wenn du möchtest, dass beim Öffnen eines Details innerhalb einer Gruppe alle anderen Gruppen geschlossen werden
                 const allDetails = document.querySelectorAll('.overview details');
                 allDetails.forEach(details => {
                 details.addEventListener('toggle', function() {
@@ -209,7 +192,121 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 });
                 });
+            })
+            .catch(error => {
+                console.error('Fehler beim Laden der config.json:', error);
             });
+        });   
+    
+            /* =========================================================
+                Einbindung von Icons
+            ============================================================ */
+            feather.replace(); // Initialisiere die Icons
+    
+        // Beispielhafte Definition der Funktion togglePanel
+        function togglePanel(element) {
+        const panelContent = element.parentElement.nextElementSibling;
+        panelContent.style.display =
+            panelContent.style.display === "none" ? "block" : "none";
+        const triangle = element.querySelector(".triangle");
+        triangle.textContent = triangle.textContent === ">" ? "v" : ">";
+        }
+    
+    
+        // Funktion zum Schließen aller Panels außer dem aktuellen
+        function closeOtherPanels(currentPanel) {
+            const allPanels = document.querySelectorAll('.panel');
+            allPanels.forEach(panel => {
+            if (panel !== currentPanel) {
+                panel.classList.remove('open');
+            }
+            });
+        }
+    
+        // Initialisieren der Übersicht und Hinzufügen der Event-Listener
+        document.addEventListener('DOMContentLoaded', () => {
+    
+            // Optional: Wenn Sie möchten, dass beim Öffnen eines Details innerhalb einer Gruppe alle anderen Gruppen geschlossen werden
+            const allDetails = document.querySelectorAll('.overview details');
+            allDetails.forEach(details => {
+            details.addEventListener('toggle', function() {
+                if (this.open) {
+                allDetails.forEach(d => {
+                    if (d !== this) {
+                    d.removeAttribute('open');
+                    }
+                });
+                }
+            });
+            });
+        });
+
+/* =========================================================
+   Funktion zum Aktualisieren des Task Counters
+============================================================ */
+const updateTaskCounter = () => {
+    const taskCounter = document.getElementById('taskCounter');
+    const desktopCounter = document.getElementById('desktopCounter');
+    const windows = document.querySelectorAll('.window');
+    const windowList = document.getElementById('windowList');
+
+    if (!windowList) {
+        console.error('windowList Element nicht gefunden');
+        return; // Brich die Funktion ab, wenn windowList nicht vorhanden ist
+    }
+
+    // Zählertext aktualisieren
+    if (desktopCounter) {
+        desktopCounter.innerText = `${windows.length}`;
+    }
+
+    // Bestehende Liste leeren und "Alles schließen" Button hinzufügen
+    windowList.innerHTML = '<li><button id="closeAllButton">Alles schließen</button></li>';
+
+    // Event-Listener für "Alles schließen" erneut hinzufügen
+    document.getElementById('closeAllButton').addEventListener('click', closeAllWindows);
+
+    // Dropdown-Menü mit offenen Fenstern füllen
+    windows.forEach(win => {
+        const windowTitle = win.querySelector('.window-header span').innerText;
+        const listItem = document.createElement('li');
+
+        // Container für Fenster-Button und Schließen-Button
+        const container = document.createElement('div');
+        container.classList.add('window-list-item');
+
+        // Fenster-Button erstellen
+        const button = document.createElement('button');
+        button.innerText = windowTitle;
+        button.onclick = () => {
+            win.style.display = 'flex';
+            bringToFront(win);
+            removeTask(win.id);
+            saveState();
+            updateTaskCounter();
+        };
+
+        // Schließen-Button erstellen
+        const closeButton = document.createElement('button');
+        closeButton.classList.add('window-list-close-button');
+        closeButton.textContent = '✖';
+        closeButton.onclick = (event) => {
+            event.stopPropagation();
+            closeWindow(win.id);
+        };
+
+        // Buttons zum Container hinzufügen
+        container.appendChild(button);
+        container.appendChild(closeButton);
+
+        // Container zum Listenelement hinzufügen
+        listItem.appendChild(container);
+
+        // Listenelement zur Fensterliste hinzufügen
+        windowList.appendChild(listItem);
+    });
+};
+
   
           /* =========================================================
              Variablen und Initialisierungen
@@ -602,11 +699,6 @@ document.addEventListener("DOMContentLoaded", function () {
           window.onload = () => {
               loadState();
   
-              const savedZoom = parseInt(localStorage.getItem('zoomLevel'), 10);
-              if (!isNaN(savedZoom)) {
-                  applyZoom(savedZoom);
-              }
-  
               // Theme laden
               const savedTheme = localStorage.getItem('theme') || 'light';
               document.documentElement.setAttribute('data-theme', savedTheme);
@@ -624,48 +716,6 @@ document.addEventListener("DOMContentLoaded", function () {
               });
           };
   
-          document.getElementById('closeAllButton').addEventListener('click', closeAllWindows);
-  
-          /* =========================================================
-             Zoom Funktionalität
-          ============================================================ */
-          const applyZoom = (zoomLevel) => {
-              if (zoomLevel < 10) zoomLevel = 10;
-              if (zoomLevel > 300) zoomLevel = 300;
-  
-              document.body.style.transform = `scale(${zoomLevel / 100})`;
-              document.body.style.transformOrigin = '0 0';
-  
-              document.body.style.width = `${100 / (zoomLevel / 100)}%`;
-              document.body.style.height = `${100 / (zoomLevel / 100)}%`;
-  
-              localStorage.setItem('zoomLevel', zoomLevel);
-          };
-  
-          document.querySelectorAll('.zoom-option').forEach(button => {
-              button.addEventListener('click', () => {
-                  const zoom = parseInt(button.getAttribute('data-zoom'), 10);
-                  applyZoom(zoom);
-  
-                  document.querySelector('.zoom-container').classList.remove('active');
-              });
-          });
-  
-          document.getElementById('applyCustomZoom').addEventListener('click', () => {
-              const customZoomInput = document.getElementById('customZoomInput');
-              let zoom = parseInt(customZoomInput.value, 10);
-  
-              if (isNaN(zoom)) {
-                  alert('Bitte geben Sie eine gültige Zoom-Stufe ein.');
-                  return;
-              }
-  
-              applyZoom(zoom);
-  
-              document.querySelector('.zoom-container').classList.remove('active');
-              customZoomInput.value = '';
-          });
-  
           /* =========================================================
              Theme Umschalten
           ============================================================ */
@@ -677,64 +727,6 @@ document.addEventListener("DOMContentLoaded", function () {
               document.documentElement.setAttribute('data-theme', newTheme);
               localStorage.setItem('theme', newTheme);
           });
-  
-          /* =========================================================
-             Funktion zum Aktualisieren des Task Counters
-          ============================================================ */
-          const updateTaskCounter = () => {
-              const taskCounter = document.getElementById('taskCounter');
-              const windows = document.querySelectorAll('.window');
-              const windowList = document.getElementById('windowList');
-  
-              // Zählertext aktualisieren
-              taskCounter.innerText = `Fenster: ${windows.length}`;
-  
-              // Bestehende Liste leeren und "Alles schließen" Button hinzufügen
-              windowList.innerHTML = '<li><button id="closeAllButton">Alles schließen</button></li>';
-  
-              // Event-Listener für "Alles schließen" erneut hinzufügen
-              document.getElementById('closeAllButton').addEventListener('click', closeAllWindows);
-  
-              // Dropdown-Menü mit offenen Fenstern füllen
-              windows.forEach(win => {
-                  const windowTitle = win.querySelector('.window-header span').innerText;
-                  const listItem = document.createElement('li');
-  
-                  // Container für Fenster-Button und Schließen-Button
-                  const container = document.createElement('div');
-                  container.classList.add('window-list-item');
-  
-                  // Fenster-Button erstellen
-                  const button = document.createElement('button');
-                  button.innerText = windowTitle;
-                  button.onclick = () => {
-                      win.style.display = 'flex';
-                      bringToFront(win);
-                      removeTask(win.id);
-                      saveState();
-                      updateTaskCounter();
-                  };
-  
-                  // Schließen-Button erstellen
-                  const closeButton = document.createElement('button');
-                  closeButton.classList.add('window-list-close-button');
-                  closeButton.textContent = '✖';
-                  closeButton.onclick = (event) => {
-                      event.stopPropagation();
-                      closeWindow(win.id);
-                  };
-  
-                  // Buttons zum Container hinzufügen
-                  container.appendChild(button);
-                  container.appendChild(closeButton);
-  
-                  // Container zum Listenelement hinzufügen
-                  listItem.appendChild(container);
-  
-                  // Listenelement zur Fensterliste hinzufügen
-                  windowList.appendChild(listItem);
-              });
-          };
   
           /* =========================================================
              System Apps
@@ -856,3 +848,9 @@ document.addEventListener("DOMContentLoaded", function () {
             saveState();
             updateTaskCounter();
         };
+
+            /* =========================================================
+             Laden der Settings beim start
+          ============================================================ */
+
+          sysSetting()
