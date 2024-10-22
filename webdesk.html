@@ -12,18 +12,18 @@
     <header>
         <div class="navbar">
             <ul class="menu">
-                <li class="dropdown-container">
-                    <div class="setting"><button title="Overview"><i data-feather="grid" aria-placeholder="apps"></i></button></div>
-                    <ul class="dropdown" id="homeDropdown">
-                        <li><div class="overview"></div></li>
-                    </ul>
-                </li>
                 <li>
                     <span class="bild">
                         <a title="Organisations Logos" href="https://www.bit-tag.com">
                             <img src="img/big-logo.png" height="100px" alt="Organisation Logo">
                         </a>
                     </span>
+                </li>
+                <li class="dropdown-container">
+                    <div class="setting"><button title="Overview"><i data-feather="grid" aria-placeholder="apps"></i></button></div>
+                    <ul class="dropdown" id="homeDropdown">
+                        <li><div class="overview"></div></li>
+                    </ul>
                 </li>
                 <li>
                     <button title="Homepage"><i data-feather="home" aria-placeholder="home"></i> <p>Home</p></button>
@@ -103,30 +103,6 @@
         <div id="right-snap-overlay" class="snap-overlay" aria-hidden="true"></div>
         <div id="top-snap-overlay" class="snap-overlay" aria-hidden="false"></div>
         <!-- Fenster Vorlage -->
-        <div class="window" id="window1">
-            <div class="window-header">
-                <span>
-                    <a class="window-a" target="_blank" href="setting.html" title="Extern öffnen">Einstellung</a>
-                </span>
-                <div class="buttons">
-                    <button title="Minimieren" class="window-button" onclick="minimizeWindow(event, 'window1')">_</button>
-                    <button title="Maximieren" class="window-button" onclick="maximizeWindow('window1')">□</button>
-                    <button title="Schließen" class="window-close" onclick="closeWindow('window1')">✖</button>
-                </div>
-            </div>
-            <div class="window-content">
-                <div class="iframe-container">
-                    <!-- Ladebalken -->
-                    <div class="loader">
-                        <div class="progress-bar">
-                            <div class="progress-bar-inner"></div>
-                        </div>
-                    </div>
-                    <iframe id="myIframe" src="setting.html" onload="hideLoader(this)"></iframe>
-                </div>
-            </div>
-            <div class="resize-handle"></div>
-        </div>
     </main>
 
     <footer>
@@ -138,5 +114,7 @@
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script src="script.js"></script>
+
+    <script>sysSetting()</script>
 </body>
 </html>

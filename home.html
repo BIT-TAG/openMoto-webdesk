@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UmbrelOS Ähnliche UI</title>
+    <!-- GSAP Bibliothek einbinden -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        /* Grundlegendes Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            background-image: url(hintergrundbild.jpg);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Hauptbereich */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 1300px;
+            gap: 20px;
+        }
+
+        /* Widgets */
+        .widgets {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 25px;
+        }
+
+        .widget {
+            background-color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            width: calc(33.333% - 20px);
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden; /* Wichtig für den erweiterten Inhalt */
+        }
+
+        .widget h3 {
+            margin-bottom: 15px;
+        }
+
+        .widget p {
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .widget {
+                width: calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .widget {
+                width: 100%;
+            }
+        }
+
+        /* Erweiterter Inhalt */
+        .widget.expanded {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            width: 80%;
+            height: auto;
+            z-index: 1000;
+            padding: 30px;
+            color: #000;
+            background-color: rgba(255, 255, 255, 0.95);
+            cursor: default;
+            overflow: auto;
+            border-radius: 10px;
+        }
+
+        .widget .close-btn {
+            display: none;
+        }
+
+        .widget.expanded .close-btn {
+            display: block;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hauptinhalt -->
+    <div class="main-content">
+        <div class="widgets">
+            <div class="widget" data-widget="system-status">
+                <h3>System Status</h3>
+                <p>Alles läuft reibungslos!</p>
+            </div>
+            <div class="widget" data-widget="netzwerk">
+                <h3>Netzwerk</h3>
+                <p>Verbindung: Stabil</p>
+            </div>
+            <div class="widget" data-widget="speicherplatz">
+                <h3>Speicherplatz</h3>
+                <p>Verfügbar: 120 GB</p>
+            </div>
+            <!-- Weitere Widgets können hier hinzugefügt werden -->
+            <div class="widget" data-widget="prozessor">
+                <h3>Prozessor</h3>
+                <p>Auslastung: 35%</p>
+            </div>
+            <div class="widget" data-widget="arbeitsspeicher">
+                <h3>Arbeitsspeicher</h3>
+                <p>Belegt: 4 GB von 16 GB</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        const widgets = document.querySelectorAll('.widget');
+        let isAnimating = false; // Verhindert mehrfache Animationen
+
+        widgets.forEach(widget => {
+            widget.addEventListener('click', () => {
+                if (isAnimating || widget.classList.contains('expanded')) return;
+                isAnimating = true;
+
+                // Inhalt erweitern
+                const widgetType = widget.getAttribute('data-widget');
+                let content = '';
+
+                switch(widgetType) {
+                    case 'system-status':
+                        content = '<h2>System Status Details</h2><p>Hier sind weitere Informationen zum Systemstatus...</p>';
+                        break;
+                    case 'netzwerk':
+                        content = '<h2>Netzwerk Details</h2><p>Hier sind weitere Informationen zum Netzwerk...</p>';
+                        break;
+                    case 'speicherplatz':
+                        content = '<h2>Speicherplatz Details</h2><p>Hier sind weitere Informationen zum Speicherplatz...</p>';
+                        break;
+                    case 'prozessor':
+                        content = '<h2>Prozessor Details</h2><p>Hier sind weitere Informationen zum Prozessor...</p>';
+                        break;
+                    case 'arbeitsspeicher':
+                        content = '<h2>Arbeitsspeicher Details</h2><p>Hier sind weitere Informationen zum Arbeitsspeicher...</p>';
+                        break;
+                    default:
+                        content = '<h2>Details</h2><p>Weitere Informationen...</p>';
+                }
+
+                // Originalinhalt speichern
+                widget.setAttribute('data-original-content', widget.innerHTML);
+
+                // Close Button hinzufügen
+                widget.innerHTML = '<span class="close-btn">&times;</span>' + content;
+
+                // Position und Größe ermitteln
+                const rect = widget.getBoundingClientRect();
+                const bodyRect = document.body.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                // Startwerte setzen
+                gsap.set(widget, {
+                    position: 'fixed',
+                    top: rect.top + scrollTop,
+                    left: rect.left,
+                    width: rect.width,
+                    height: rect.height,
+                    zIndex: 1000,
+                    xPercent: 0,
+                    yPercent: 0
+                });
+
+                // Klasse hinzufügen
+                widget.classList.add('expanded');
+
+                // Animation starten
+                gsap.to(widget, {
+                    duration: 0.5,
+                    ease: 'power2.inOut',
+                    top: '50%',
+                    left: '50%',
+                    width: '80%',
+                    height: 'auto',
+                    xPercent: -50,
+                    yPercent: -50,
+                    onComplete: () => {
+                        isAnimating = false;
+                    }
+                });
+
+                // Event Listener für Close Button
+                const closeBtn = widget.querySelector('.close-btn');
+                closeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Verhindert erneutes Triggern des Klick-Events
+                    if (isAnimating) return;
+                    isAnimating = true;
+
+                    // Animation zurück zum ursprünglichen Zustand
+                    gsap.to(widget, {
+                        duration: 0.5,
+                        ease: 'power2.inOut',
+                        top: rect.top + scrollTop,
+                        left: rect.left,
+                        width: rect.width,
+                        height: rect.height,
+                        xPercent: 0,
+                        yPercent: 0,
+                        onComplete: () => {
+                            // Originalinhalt wiederherstellen
+                            widget.innerHTML = widget.getAttribute('data-original-content');
+                            widget.classList.remove('expanded');
+                            gsap.set(widget, { position: '', top: '', left: '', width: '', height: '', zIndex: '', xPercent: '', yPercent: '' });
+                            isAnimating = false;
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

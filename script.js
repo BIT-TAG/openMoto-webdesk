@@ -1,144 +1,156 @@
-// Funktion zum Umschalten der Panel-Inhalte
-    function togglePanel(element) {
-        const panel = element.closest(".panel");
-        const allPanels = document.querySelectorAll('.panel');
-    
-        allPanels.forEach(p => {
-          if (p !== panel) {
-            p.classList.remove('open');
-          }
-        });
-    
-        panel.classList.toggle("open");
-      }
-    
-      // Funktion zum Erzeugen der Übersicht aus den Datenobjekten
-      function generateOverview(data) {
-        const overviewDiv = document.querySelector(".overview");
-        let html = "";
-    
-        data.forEach(({ group, panels }) => {
-          let detailsHtml = `
-          <details>
-            <summary>${group}</summary>`;
-    
-          panels.forEach(({ buttonText, content, onClick, link, icon }) => {
-            // Bestimmen, ob ein Button oder ein Link angezeigt werden soll
-            let actionElement = "";
-            if (onClick) {
-              actionElement = `<button onclick="${onClick}('${buttonText}', '${link}')">${buttonText}</button> <span class="icon"><a href="${link}" target="_blank"><i data-feather="link-2"></i></a></span>`;
-            } else if (link) {
-              actionElement = `<a href="${link}" target="_blank">${buttonText}  <i data-feather="link-2"></i></a>`;
-            } else {
-              actionElement = `<span>${buttonText}</span>`;
-            }
-    
-            detailsHtml += `
-            <div class="panel">
-              <div class="panel-header">
-                <i data-feather="${icon}"></i>${actionElement}
-                <span class="icon"><button onclick="openWindow('${link}')"><i data-feather="external-link"></i></button></span>
-                <span class="icon end" onclick="togglePanel(this)">
-                  <span class="triangle">></span>
-                </span>
-              </div>
-              <div class="panel-content">
-                <div>${content}</div>
-              </div>
-            </div>`;
-          });
-    
-          detailsHtml += `
-          </details>`;
-    
-          html += detailsHtml;
-        });
-    
-        overviewDiv.innerHTML = html;
-    
-        feather.replace();
-      }
-    
-      // Funktion zum Schließen aller Panels außer dem aktuellen
-      function closeOtherPanels(currentPanel) {
-        const allPanels = document.querySelectorAll('.panel');
-        allPanels.forEach(panel => {
-          if (panel !== currentPanel) {
-            panel.classList.remove('open');
-          }
-        });
-      }
-    
-      // Initialisieren der Übersicht und Hinzufügen der Event-Listener
-      document.addEventListener('DOMContentLoaded', () => {
-        // Laden der Daten aus der config.json
-        fetch('config.json')
-          .then(response => response.json())
-          .then(config => {
-            const data = config.data;
-            generateOverview(data);
-    
-            // Optional: Wenn du möchtest, dass beim Öffnen eines Details innerhalb einer Gruppe alle anderen Gruppen geschlossen werden
-            const allDetails = document.querySelectorAll('.overview details');
-            allDetails.forEach(details => {
-              details.addEventListener('toggle', function() {
-                if (this.open) {
-                  allDetails.forEach(d => {
-                    if (d !== this) {
-                      d.removeAttribute('open');
-                    }
-                  });
-                }
-              });
-            });
-          })
-          .catch(error => {
-            console.error('Fehler beim Laden der config.json:', error);
-          });
-      });   
-  
           /* =========================================================
-             Einbindung von Icons
+            openWindow Funktion
           ============================================================ */
-          feather.replace(); // Initialisiere die Icons
-  
-      // Beispielhafte Definition der Funktion togglePanel
-      function togglePanel(element) {
-      const panelContent = element.parentElement.nextElementSibling;
-      panelContent.style.display =
-          panelContent.style.display === "none" ? "block" : "none";
-      const triangle = element.querySelector(".triangle");
-      triangle.textContent = triangle.textContent === ">" ? "v" : ">";
-      }
-  
-  
-      // Funktion zum Schließen aller Panels außer dem aktuellen
-      function closeOtherPanels(currentPanel) {
-        const allPanels = document.querySelectorAll('.panel');
-        allPanels.forEach(panel => {
-          if (panel !== currentPanel) {
-            panel.classList.remove('open');
-          }
-        });
-      }
-  
-      // Initialisieren der Übersicht und Hinzufügen der Event-Listener
-      document.addEventListener('DOMContentLoaded', () => {
-  
-        // Optional: Wenn Sie möchten, dass beim Öffnen eines Details innerhalb einer Gruppe alle anderen Gruppen geschlossen werden
-        const allDetails = document.querySelectorAll('.overview details');
-        allDetails.forEach(details => {
-          details.addEventListener('toggle', function() {
-            if (this.open) {
-              allDetails.forEach(d => {
-                if (d !== this) {
-                  d.removeAttribute('open');
+
+          function openWindow(url, width, height) {
+            window.open(url, 'popup', 'width=600,height=400');
+        }
+
+        /* =========================================================
+            Overview Funtkionen
+          ============================================================ */
+
+        // Funktion zum Umschalten der Panel-Inhalte
+            function togglePanel(element) {
+                const panel = element.closest(".panel");
+                const allPanels = document.querySelectorAll('.panel');
+            
+                allPanels.forEach(p => {
+                if (p !== panel) {
+                    p.classList.remove('open');
                 }
-              });
+                });
+            
+                panel.classList.toggle("open");
             }
-          });
-        });
-      });
+            
+            // Funktion zum Erzeugen der Übersicht aus den Datenobjekten
+            function generateOverview(data) {
+                const overviewDiv = document.querySelector(".overview");
+                let html = "";
+            
+                data.forEach(({ group, panels }) => {
+                let detailsHtml = `
+                <details>
+                    <summary>${group}</summary>`;
+            
+                panels.forEach(({ buttonText, content, onClick, link, icon }) => {
+                    // Bestimmen, ob ein Button oder ein Link angezeigt werden soll
+                    let actionElement = "";
+                    if (onClick) {
+                    actionElement = `<button onclick="${onClick}('${buttonText}', '${link}')">${buttonText}</button> <span class="icon"><a href="${link}" target="_blank"><i data-feather="link-2"></i></a></span>`;
+                    } else if (link) {
+                    actionElement = `<a href="${link}" target="_blank">${buttonText}  <i data-feather="link-2"></i></a>`;
+                    } else {
+                    actionElement = `<span>${buttonText}</span>`;
+                    }
+            
+                    detailsHtml += `
+                    <div class="panel">
+                    <div class="panel-header">
+                        <i data-feather="${icon}"></i>${actionElement}
+                        <span class="icon"><button onclick="openWindow('${link}')"><i data-feather="external-link"></i></button></span>
+                        <span class="icon end" onclick="togglePanel(this)">
+                        <span class="triangle">></span>
+                        </span>
+                    </div>
+                    <div class="panel-content">
+                        <div>${content}</div>
+                    </div>
+                    </div>`;
+                });
+            
+                detailsHtml += `
+                </details>`;
+            
+                html += detailsHtml;
+                });
+            
+                overviewDiv.innerHTML = html;
+            
+                feather.replace();
+            }
+            
+            // Funktion zum Schließen aller Panels außer dem aktuellen
+            function closeOtherPanels(currentPanel) {
+                const allPanels = document.querySelectorAll('.panel');
+                allPanels.forEach(panel => {
+                if (panel !== currentPanel) {
+                    panel.classList.remove('open');
+                }
+                });
+            }
+            
+            // Initialisieren der Übersicht und Hinzufügen der Event-Listener
+            document.addEventListener('DOMContentLoaded', () => {
+                // Laden der Daten aus der config.json
+                fetch('config.json')
+                .then(response => response.json())
+                .then(config => {
+                    const data = config.data;
+                    generateOverview(data);
+            
+                    // Optional: Wenn du möchtest, dass beim Öffnen eines Details innerhalb einer Gruppe alle anderen Gruppen geschlossen werden
+                    const allDetails = document.querySelectorAll('.overview details');
+                    allDetails.forEach(details => {
+                    details.addEventListener('toggle', function() {
+                        if (this.open) {
+                        allDetails.forEach(d => {
+                            if (d !== this) {
+                            d.removeAttribute('open');
+                            }
+                        });
+                        }
+                    });
+                    });
+                })
+                .catch(error => {
+                    console.error('Fehler beim Laden der config.json:', error);
+                });
+            });   
+        
+                /* =========================================================
+                    Einbindung von Icons
+                ============================================================ */
+                feather.replace(); // Initialisiere die Icons
+        
+            // Beispielhafte Definition der Funktion togglePanel
+            function togglePanel(element) {
+            const panelContent = element.parentElement.nextElementSibling;
+            panelContent.style.display =
+                panelContent.style.display === "none" ? "block" : "none";
+            const triangle = element.querySelector(".triangle");
+            triangle.textContent = triangle.textContent === ">" ? "v" : ">";
+            }
+        
+        
+            // Funktion zum Schließen aller Panels außer dem aktuellen
+            function closeOtherPanels(currentPanel) {
+                const allPanels = document.querySelectorAll('.panel');
+                allPanels.forEach(panel => {
+                if (panel !== currentPanel) {
+                    panel.classList.remove('open');
+                }
+                });
+            }
+        
+            // Initialisieren der Übersicht und Hinzufügen der Event-Listener
+            document.addEventListener('DOMContentLoaded', () => {
+        
+                // Optional: Wenn Sie möchten, dass beim Öffnen eines Details innerhalb einer Gruppe alle anderen Gruppen geschlossen werden
+                const allDetails = document.querySelectorAll('.overview details');
+                allDetails.forEach(details => {
+                details.addEventListener('toggle', function() {
+                    if (this.open) {
+                    allDetails.forEach(d => {
+                        if (d !== this) {
+                        d.removeAttribute('open');
+                        }
+                    });
+                    }
+                });
+                });
+            });
   
           /* =========================================================
              Variablen und Initialisierungen
@@ -257,49 +269,6 @@
               win.setAttribute('data-y', win.getAttribute('data-prev-y') || 0);
               win.style.top = '';
               win.style.left = '';
-          };
-  
-          /* =========================================================
-             Fensterpositionierung anpassen (nur horizontal)
-          ============================================================ */
-          const createWindow = (windowTitle, windowUrl) => {
-              windowCount++;
-              const win = document.createElement('div');
-              win.classList.add('window');
-              win.id = `window${windowCount}`;
-  
-              // Leicht versetzte Positionierung (nur horizontal)
-              const offset = (windowCount * 20) % 100; // Modulo, um die Versetzung zu begrenzen
-              win.style.top = `50px`; // Feste vertikale Position
-              win.style.left = `${50 + offset}px`;
-  
-              win.style.width = '1200px';
-              win.style.height = '800px';
-              win.innerHTML = `
-                  <div class="window-header">
-                      <span><a class="window-a" target="_blank" href="${windowUrl !== 'about:blank' ? windowUrl : '#'}" title="Extern öffnen">${windowTitle}</a></span>
-                      <div class="buttons">
-                          <button class="window-button" onclick="minimizeWindow(event, '${win.id}')">_</button>
-                          <button class="window-button" onclick="maximizeWindow('${win.id}')">□</button>
-                          <button class="window-close" onclick="closeWindow('${win.id}')">✖</button>
-                      </div>
-                  </div>
-                  <div class="window-content">
-                    <!-- Ladebalken -->
-                    <div class="loader">
-                        <div class="progress-bar">
-                            <div class="progress-bar-inner"></div>
-                        </div>
-                    </div>
-                    <iframe src='${windowUrl}' onload="hideLoader(this)" frameborder="0"></iframe>
-                  </div>
-                  <div class="resize-handle"></div>
-              `;
-              mainElement.appendChild(win);
-              makeDraggableResizable(win);
-              bringToFront(win);
-              saveState();
-              updateTaskCounter();
           };
   
           /* =========================================================
@@ -511,108 +480,62 @@
              Zustand der Fenster speichern und laden
           ============================================================ */
           const saveState = () => {
-              const windows = document.querySelectorAll('.window');
-              const state = [];
-              windows.forEach(win => {
-                  const windowTitle = win.querySelector('.window-header span').innerText;
-                  const iframe = win.querySelector('.window-content iframe');
-                  const windowUrl = iframe ? iframe.src : '';
-                  state.push({
-                      id: win.id,
-                      top: win.style.top,
-                      left: win.style.left,
-                      width: win.style.width,
-                      height: win.style.height,
-                      x: win.getAttribute('data-x') || 0,
-                      y: win.getAttribute('data-y') || 0,
-                      minimized: win.style.display === 'none',
-                      maximized: win.classList.contains('maximized'),
-                      windowTitle: windowTitle,
-                      windowUrl: windowUrl
-                  });
-              });
-              localStorage.setItem('windowsState', JSON.stringify(state));
-              localStorage.setItem('windowCount', windowCount);
-          };
+            const windows = document.querySelectorAll('.window');
+            const state = [];
+            windows.forEach(win => {
+                const windowTitle = win.querySelector('.window-header span').innerText;
+                const iframe = win.querySelector('.window-content iframe');
+                const windowUrl = iframe ? iframe.src : '';
+                state.push({
+                    id: win.id,
+                    top: win.style.top,
+                    left: win.style.left,
+                    width: win.style.width,
+                    height: win.style.height,
+                    x: win.getAttribute('data-x') || 0,
+                    y: win.getAttribute('data-y') || 0,
+                    minimized: win.style.display === 'none',
+                    maximized: win.classList.contains('maximized'),
+                    windowTitle: windowTitle,
+                    windowUrl: windowUrl
+                });
+            });
+            localStorage.setItem('windowsState', JSON.stringify(state));
+            localStorage.setItem('windowCount', windowCount);
+        };
   
           const loadState = () => {
-              const state = JSON.parse(localStorage.getItem('windowsState'));
-              const savedWindowCount = parseInt(localStorage.getItem('windowCount'), 10);
-              if (savedWindowCount && savedWindowCount > windowCount) {
-                  windowCount = savedWindowCount;
-              }
-              if (state) {
-                  state.forEach(w => {
-                      let win = document.getElementById(w.id);
-                      if (!win) {
-                          win = document.createElement('div');
-                          win.classList.add('window');
-                          win.id = w.id;
-                          win.style.top = w.top;
-                          win.style.left = w.left;
-                          win.style.width = w.width;
-                          win.style.height = w.height;
-                          win.style.transform = `translate3d(${w.x}, ${w.y}, 0)`;
-                          win.setAttribute('data-x', w.x);
-                          win.setAttribute('data-y', w.y);
-  
-                          win.innerHTML = `
-                              <div class="window-header">
-                                  <span><a class="window-a" target="_blank" href="${w.windowUrl !== 'about:blank' ? w.windowUrl : '#'}" title="Extern öffnen">${w.windowTitle}</a></span>
-                                  <div class="buttons">
-                                      <button class="window-button" onclick="minimizeWindow(event, '${win.id}')">_</button>
-                                      <button class="window-button" onclick="maximizeWindow('${win.id}')">□</button>
-                                      <button class="window-close" onclick="closeWindow('${win.id}')">✖</button>
-                                  </div>
-                              </div>
-                              <div class="window-content">
-                                <div class="iframe-container">
-                                    <!-- Ladebalken -->
-                                    <div class="loader">
-                                        <div class="progress-bar">
-                                            <div class="progress-bar-inner"></div>
-                                        </div>
-                                    </div>
-                                    <iframe id="myIframe" src="${w.windowUrl}" onload="hideLoader(this)"></iframe>
-                                </div>
-                              </div>
-                              <div class="resize-handle"></div>
-                          `;
-  
-                          mainElement.appendChild(win);
-                          makeDraggableResizable(win);
-                      } else {
-                          win.style.top = w.top;
-                          win.style.left = w.left;
-                          win.style.width = w.width;
-                          win.style.height = w.height;
-                          win.style.transform = `translate3d(${w.x}px, ${w.y}px, 0)`;
-                          win.setAttribute('data-x', w.x);
-                          win.setAttribute('data-y', w.y);
-  
-                          win.querySelector('.window-header span').innerText = w.windowTitle;
-                          const iframe = win.querySelector('.window-content iframe');
-                          if (iframe) {
-                              iframe.src = w.windowUrl;
-                          }
-                      }
-  
-                      if (w.minimized) {
-                          win.style.display = 'none';
-                          addTask(w.id, w.windowTitle);
-                      } else {
-                          win.style.display = 'flex';
-                      }
-  
-                      if (w.maximized) {
-                          win.classList.add('maximized');
-                      }
-  
-                      bringToFront(win);
-                  });
-                  updateTaskCounter();
-              }
-          };
+            const state = JSON.parse(localStorage.getItem('windowsState'));
+            const savedWindowCount = parseInt(localStorage.getItem('windowCount'), 10);
+            if (savedWindowCount && savedWindowCount > windowCount) {
+                windowCount = savedWindowCount;
+            }
+            if (state) {
+                state.forEach(w => {
+                    // Fenster erstellen mit iframeWindow()
+                    iframeWindow(w.windowTitle, w.windowUrl, {
+                        id: w.id,
+                        top: w.top,
+                        left: w.left,
+                        width: w.width,
+                        height: w.height,
+                        x: parseFloat(w.x),
+                        y: parseFloat(w.y),
+                        minimized: w.minimized,
+                        maximized: w.maximized
+                    });
+        
+                    const win = document.getElementById(w.id);
+        
+                    // Stelle sicher, dass das Fenster draggable und resizable ist
+                    makeDraggableResizable(win);
+        
+                    // Bringe das Fenster nach vorne
+                    bringToFront(win);
+                });
+                updateTaskCounter();
+            }
+        };
   
           /* =========================================================
              Event Listener für Laden und Schließen der Seite
@@ -757,24 +680,24 @@
           /* =========================================================
              System Apps
           ============================================================ */
-          const iframeWindow = (buttonText, link) => {
-              const windowTitle = buttonText;
-              const windowContent = `
-
-                  <div class="iframe-container">
+          const iframeWindow = (buttonText, link, options = {}) => {
+            const windowTitle = buttonText;
+            const windowContent = `
+                <div class="iframe-container">
                     <!-- Ladebalken -->
                     <div class="loader">
                         <div class="progress-bar">
                             <div class="progress-bar-inner"></div>
                         </div>
+                        <button onclick="hideLoader(this.parentElement.nextElementSibling)">Ladebalken Ausblenden</button>
                     </div>
-
                     <!-- Das iframe -->
-                    <iframe id="myIframe" src="${link}" onload="hideLoader(this)"></iframe>
+                    <iframe src="${link}" onload="hideLoader(this)"></iframe>
                 </div>
-              `;
-              sysWindow(windowTitle, windowContent);
-          };
+            `;
+            sysWindow(windowTitle, windowContent, link, options);
+        };
+        
   
           const createNewSysWindow = () => {
               const windowTitle = 'Fenster erstellen';
@@ -813,36 +736,64 @@
               sysWindow(windowTitle, windowContent);
           };
   
-          const sysWindow = (windowTitle, windowContent) => {
-              windowCount++;
-              const win = document.createElement('div');
-              win.classList.add('window');
-              win.id = `window${windowCount}`;
-  
-              // Leicht versetzte Positionierung (nur horizontal)
-              const offset = (windowCount * 20) % 100;
-              win.style.top = `50px`; // Feste vertikale Position
-              win.style.left = `${50 + offset}px`;
-  
-              win.style.width = '600px';
-              win.style.height = '400px';
-              win.innerHTML = `
-                  <div class="window-header">
-                      <span>${windowTitle}</span>
-                      <div class="buttons">
-                          <button class="window-button" onclick="minimizeWindow(event, '${win.id}')">_</button>
-                          <button class="window-button" onclick="maximizeWindow('${win.id}')">□</button>
-                          <button class="window-close" onclick="closeWindow('${win.id}')">✖</button>
-                      </div>
-                  </div>
-                  <div class="window-content">
-                      ${windowContent}
-                  </div>
-                  <div class="resize-handle"></div>
-              `;
-              mainElement.appendChild(win);
-              makeDraggableResizable(win);
-              bringToFront(win);
-              saveState();
-              updateTaskCounter();
-          };
+          const sysWindow = (windowTitle, windowContent, link, options = {}) => {
+            windowCount++;
+            const win = document.createElement('div');
+            win.classList.add('window');
+            win.id = options.id || `window${windowCount}`;
+        
+            // Positionierung
+            if (options.top !== undefined && options.left !== undefined) {
+                win.style.top = options.top;
+                win.style.left = options.left;
+            } else {
+                const offset = (windowCount * 20) % 100;
+                win.style.top = `50px`;
+                win.style.left = `${50 + offset}px`;
+            }
+        
+            // Größe
+            win.style.width = options.width || '600px';
+            win.style.height = options.height || '400px';
+        
+            // Datenattribute für die Position
+            if (options.x !== undefined && options.y !== undefined) {
+                win.setAttribute('data-x', options.x);
+                win.setAttribute('data-y', options.y);
+                win.style.transform = `translate3d(${options.x}px, ${options.y}px, 0)`;
+            }
+        
+            win.innerHTML = `
+                <div class="window-header">
+                    <span><a href="${link}">${windowTitle}</a></span>
+                    <div class="buttons">
+                        <button class="window-button" onclick="minimizeWindow(event, '${win.id}')">_</button>
+                        <button class="window-button" onclick="maximizeWindow('${win.id}')">□</button>
+                        <button class="window-close" onclick="closeWindow('${win.id}')">✖</button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    ${windowContent}
+                </div>
+                <div class="resize-handle"></div>
+            `;
+            mainElement.appendChild(win);
+            makeDraggableResizable(win);
+        
+            // Zustand setzen
+            if (options.maximized) {
+                win.classList.add('maximized');
+                win.style.transform = '';
+                win.style.top = '0';
+                win.style.left = '0';
+                win.style.width = '100%';
+                win.style.height = '100%';
+            } else if (options.minimized) {
+                win.style.display = 'none';
+                addTask(win.id, windowTitle);
+            }
+        
+            bringToFront(win);
+            saveState();
+            updateTaskCounter();
+        };
