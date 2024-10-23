@@ -33,8 +33,8 @@
         [data-theme="dark"] {
             --color: 150, 100, 0;
             --main-color: rgba(var(--color));
-            --backcolor-hover: rgba(var(--color), 0.10);
-            --background-color: rgb(9 9 11);
+            --backcolor-hover: rgba(var(--color), 0.20);
+            --background-color: rgba(9, 9, 11, 0.9);
             --main-back: rgb(24 24 27);
             --text-color: #ffffff;
             --border: 1px solid hsla(0,0%,100%,.1);
@@ -49,7 +49,7 @@
         
         html {
             height: 100%;
-            width: 100%;
+
         }
         
         body {
@@ -61,7 +61,6 @@
             font-family: Arial, sans-serif;
             position: relative;
             height: 100%;
-            width: 100%;
             transition: transform 0.3s, width 0.3s, height 0.3s, background-color 0.3s, color 0.3s;
         }
 
@@ -302,7 +301,6 @@
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             padding: 5px;
             backdrop-filter: var(--backdrop-filter);
-            right: calc(100% - 30px);
         }
 
         .dropdown-footer {
@@ -327,8 +325,7 @@
         }
 
         .dropdown-left {
-            right: 100%;
-            top: 0;
+            right: calc(100% - 50px);
         }
 
         ul {
@@ -380,6 +377,10 @@
             background-color: var(--background-color);
             color: var(--text-color);
 
+        }
+
+        .switch-button.active {
+           background-color: var(--backcolor-hover);
         }
 
         .navbar {
@@ -466,7 +467,7 @@
 
         .login-button {
             margin-left: 10px;
-            background-color: var(--backcolorgray-hover);
+            background-color: var(--main-back);
         }
 
         .login-button:hover {
@@ -620,8 +621,9 @@
 
         .overview details {
             margin: var(--padding);
+            border: var(--border);
             border-radius: var(--border-radius);
-            background-color: var(--backcolorgray-hover);
+            background-color: var(--main-back);
         }
 
         /* Dreieck ans Ende setzen nur für verschachtelte Details */

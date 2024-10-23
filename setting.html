@@ -46,12 +46,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden; /* Verhindert das Überlaufen des Inhalts */
         }
 
         .container {
             display: flex;
-            width: 80%;
+            width: 100%;
             max-width: 1200px;
+            height: 80vh; /* Höhe angepasst */
             background-color: var(--background-color);
             box-shadow: var(--box-shadow);
             border-radius: var(--border-radius);
@@ -66,6 +68,7 @@
             padding: var(--padding);
             display: flex;
             flex-direction: column;
+            overflow-y: auto; /* Ermöglicht Scrollen bei Bedarf */
         }
 
         .sidebar button {
@@ -78,7 +81,9 @@
             cursor: pointer;
             width: 100%;
             border-radius: var(--border-radius);
-            margin: calc(var(--padding) / 2);
+            margin: calc(var(--padding) / 2) 0;
+            height: 50px; /* Feste Höhe für die Tabs */
+            flex-shrink: 0; /* Verhindert, dass die Buttons schrumpfen */
         }
 
         .sidebar button:hover {
@@ -99,6 +104,7 @@
         .content {
             flex: 1;
             padding: var(--padding);
+            overflow-y: auto; /* Ermöglicht Scrollen bei Überlauf */
         }
 
         .content section {
@@ -333,8 +339,6 @@
                     <p>Hier finden Sie Hilfe zu den verschiedenen Funktionen.</p>
                 </main>
             </section>
-
-        </div>
     </div>
 
     <script src="https://unpkg.com/feather-icons"></script>

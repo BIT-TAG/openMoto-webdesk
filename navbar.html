@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar mit Animation</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        .navbar .menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        .navbar .menu li {
+            margin: 0 10px;
+        }
+
+        .navbar .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .navbar .menu a:hover {
+            color: #ddd;
+        }
+
+        .underline {
+            position: absolute;
+            height: 2px;
+            background: white;
+            bottom: 0;
+            left: 0;
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <ul class="menu" id="button-container">
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Über uns</a></li>
+        <li><a href="#">Dienstleistungen</a></li>
+        <li><a href="#">Kontakt</a></li>
+    </ul>
+    <div class="underline"></div>
+</div>
+
+<script>
+    const navbarLinks = document.querySelectorAll('.navbar .menu a');
+    const underline = document.querySelector('.underline');
+
+    function updateUnderlinePosition(activeLink) {
+        const linkRect = activeLink.getBoundingClientRect();
+        const navbarRect = activeLink.closest('.navbar').getBoundingClientRect();
+        underline.style.width = `${linkRect.width}px`;
+        underline.style.transform = `translateX(${linkRect.left - navbarRect.left}px)`;
+    }
+
+    navbarLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault(); // Verhindert das Standardverhalten des Links
+            navbarLinks.forEach(navLink => navLink.classList.remove('active'));
+            this.classList.add('active');
+            updateUnderlinePosition(this);
+        });
+    });
+
+    // Initial position of the underline
+    updateUnderlinePosition(document.querySelector('.navbar .menu a.active'));
+</script>
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+<script src="script.js"></script>
+
+
+</body>
+</html>

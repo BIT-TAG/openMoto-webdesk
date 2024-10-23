@@ -3,47 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UmbrelOS Ähnliche UI</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Home-Test</title>
     <!-- GSAP Bibliothek einbinden -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
         /* Benutzerdefinierte Stile */
-        header h1 {
-            text-shadow: 2px 2px 10px rgba(0,0,0,1);
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #6b7280; /* Entspricht bg-gray-500 */
+            background-image: url('/img/hintergrundbild.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            margin: 0;
         }
-        .popover {
+        h1 {
+            margin: 0;
+            text-shadow: 2px 2px 10px rgba(0,0,0,1);
+            font-size: 3rem; /* Größere Schriftgröße */
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        #main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.25rem; /* Entspricht p-5 */
+            gap: 2.5rem; /* Entspricht gap-10 */
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem; /* Entspricht gap-5 */
+            width: 100%;
+            max-width: 1120px; /* Entspricht max-w-7xl */
+        }
+        .widgets-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.25rem; /* Entspricht gap-5 */
+            margin: 1.5rem 0; /* Entspricht my-6 */
+        }
+        .widget {
+            background-color: rgba(105, 105, 105, 0.699);
+            backdrop-filter: blur(10px);
+            border-radius: 0.3rem; /* Entspricht rounded */
+            padding: 1.25rem; /* Entspricht p-5 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Entspricht shadow-md */
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            width: 100%;
+        }
+        .widget:hover {
+            transform: scale(1.05);
+            background-color: rgba(223, 223, 223, 0.4); /* Entspricht hover:bg-opacity-40 */
+        }
+        .app {
+            border-radius: 0.3rem;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            overflow: hidden;
+            max-width: 100%; /* Entspricht max-w-3/5 */
+            max-height: 100%; /* Entspricht max-h-3/5 */
+        }
+        .app:hover {
+            transform: scale(1.1);
+        }
+        .app-logo {
+            border-radius: 0.3rem;;
+            max-width: 100px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: rgba(105, 105, 105, 0.699);
+            margin-bottom: 0.25rem; /* Entspricht mb-1 */
+        }
+        /* Responsive Anpassungen */
+        @media (max-width: 640px) {
+            .app {
+                width: 5rem; /* Entspricht w-20 */
+                height: 5rem; /* Entspricht h-20 */
+            }
+        }
+        @media (min-width: 640px) {
+            .widget {
+                width: 40%; /* Annähernd 1/2 Breite */
+            }
+        }
+        @media (min-width: 1024px) {
+            .widget {
+                width: 27%; /* Annähernd 1/3 Breite */
+            }
+        }
+        /* Styles für Overlay und Popover */
+        #overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+        }
+        #popover {
             background-color: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(25px);
             color: #000;
             border-radius: 0.3rem;
-            padding: 20px;
+            padding: 1.25rem;
             width: 80%;
             height: 80%;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             position: relative;
             transform: scale(0);
             opacity: 0;
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
+        #close-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: black;
+        }
     </style>
 </head>
-<body class="flex flex-col min-h-screen bg-gray-500 bg-cover bg-center text-white" style="background-image: url('/img/hintergrundbild.jpg');">
+<body>
     <!-- Header -->
-    <header class="flex items-center justify-center ">
+    <header>
         <h1>Guten Tag, Max Mustermann</h1>
     </header>
 
-    <!-- Hauptcontainer mit vertikalen Abschnitten -->
-    <div class="flex-1 flex flex-col items-center p-5 gap-10" id="main-container">
-        <!-- Dynamisch generierte Sektionen werden hier eingefügt -->
+    <!-- Hauptcontainer -->
+    <div id="main-container">
+        <!-- Dynamisch generierte Inhalte werden hier eingefügt -->
     </div>
 
     <!-- Overlay und Popover Modal -->
-    <div class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50" id="overlay">
-        <div class="bg-white bg-opacity-70 backdrop-blur-lg rounded-md p-5 w-4/5 h-4/5 shadow-2xl transform scale-0 opacity-0 transition-transform transition-opacity duration-300" id="popover">
-            <span class="absolute top-2 right-4 text-2xl cursor-pointer text-black" id="close-btn">&times;</span>
+    <div id="overlay">
+        <div id="popover">
+            <span id="close-btn">&times;</span>
             <div id="popover-content">
                 <!-- Erweiterter Inhalt wird hier eingefügt -->
             </div>
@@ -62,7 +174,28 @@
                             "type": "widget",
                             "data": {
                                 "widget": "system-status",
-                                "html": "<h3>System Status</h3><p>Alles läuft reibungslos!</p>",
+                                "html": "<h3>Desktop (Beta)</h3><p>Alles läuft reibungslos!</p>",
+                                "expandedHtml": "<h2>System Status Details</h2><p>Hier sind weitere Informationen zum Systemstatus...</p>"
+                            }
+                        },
+                        {
+                            "type": "widget",
+                            "data": {
+                                "widget": "system-status",
+                                "html": "<h3>Home (Alpha)</h3><p>Alles läuft reibungslos!</p>",
+                                "expandedHtml": "<h2>System Status Details</h2><p>Hier sind weitere Informationen zum Systemstatus...</p>"
+                            }
+                        },
+                    ]
+                },
+                {
+                    "title": "Systemübersicht",
+                    "components": [
+                        {
+                            "type": "widget",
+                            "data": {
+                                "widget": "system-status",
+                                "html": "<h3>System Status (Beispiel Witget)</h3><p>Alles läuft reibungslos!</p>",
                                 "expandedHtml": "<h2>System Status Details</h2><p>Hier sind weitere Informationen zum Systemstatus...</p>"
                             }
                         },
@@ -70,39 +203,85 @@
                             "type": "widget",
                             "data": {
                                 "widget": "netzwerk",
-                                "html": "<h3>Netzwerk</h3><p>Verbindung: Stabil</p>",
+                                "html": "<h3>Netzwerk (Beispiel Witget)</h3><p>Verbindung: Stabil</p>",
                                 "expandedHtml": "<h2>Netzwerk Details</h2><p>Hier sind weitere Informationen zum Netzwerk...</p>"
                             }
                         },
                         {
-                            "type": "app",
+                            "type": "widget",
                             "data": {
-                                "app": "weather",
-                                "html": "<p>Wetter</p>",
-                                "logo": "https://via.placeholder.com/100?text=Wetter",
-                                "action": "openWeather"
+                                "widget": "netzwerk",
+                                "html": "<h3>Netzwerk (Beispiel Witget)</h3><p>Verbindung: Stabil</p>",
+                                "expandedHtml": "<h2>Netzwerk Details</h2><p>Hier sind weitere Informationen zum Netzwerk...</p>"
                             }
-                        }
+                        },
                     ]
                 },
                 {
                     "title": "Leistung",
                     "components": [
+
                         {
-                            "type": "widget",
+                            "type": "app",
                             "data": {
-                                "widget": "prozessor",
-                                "html": "<h3>Prozessor</h3><p>Auslastung: 35%</p>",
-                                "expandedHtml": "<h2>Prozessor Details</h2><p>Hier sind weitere Informationen zum Prozessor...</p>"
+                                "app": "App (LibreWorkspace)",
+                                "html": "<p>App</p>",
+                                "logo": "https://via.placeholder.com/100?text=Kalender",
+                                "action": "meldung"
                             }
                         },
                         {
                             "type": "app",
                             "data": {
-                                "app": "calendar",
-                                "html": "<p>Kalender</p>",
+                                "app": "Webseite",
+                                "html": "<p>Webseite</p>",
+                                "logo": "img/small-logo.png",
+                                "action": "meldung"
+                            }
+                        },
+                        {
+                            "type": "app",
+                            "data": {
+                                "app": "App (LibreWorkspace)",
+                                "html": "<p>App</p>",
                                 "logo": "https://via.placeholder.com/100?text=Kalender",
-                                "action": "openCalendar"
+                                "action": "meldung"
+                            }
+                        },
+                        {
+                            "type": "app",
+                            "data": {
+                                "app": "App (LibreWorkspace)",
+                                "html": "<p>App</p>",
+                                "logo": "https://via.placeholder.com/100?text=Kalender",
+                                "action": "meldung"
+                            }
+                        },
+                        {
+                            "type": "app",
+                            "data": {
+                                "app": "App (LibreWorkspace)",
+                                "html": "<p>App</p>",
+                                "logo": "https://via.placeholder.com/100?text=Kalender",
+                                "action": "meldung"
+                            }
+                        },
+                        {
+                            "type": "app",
+                            "data": {
+                                "app": "App (LibreWorkspace)",
+                                "html": "<p>App</p>",
+                                "logo": "https://via.placeholder.com/100?text=Kalender",
+                                "action": "meldung"
+                            }
+                        },
+                        {
+                            "type": "app",
+                            "data": {
+                                "app": "App (LibreWorkspace)",
+                                "html": "<p>App</p>",
+                                "logo": "https://via.placeholder.com/100?text=Kalender",
+                                "action": "meldung"
                             }
                         }
                     ]
@@ -116,85 +295,73 @@
         const popoverContent = document.getElementById('popover-content');
         const closeBtn = document.getElementById('close-btn');
 
-        // Funktion zum Erstellen von Widgets und Apps
+        // Funktion zum Erstellen von Widgets und Apps als HTML-String
         function createComponent(component) {
             if (component.type === 'widget') {
-                const div = document.createElement('div');
-                div.classList.add(
-                    'bg-white', 'bg-opacity-30', 'backdrop-blur-lg', 'rounded', 'p-5',
-                    'shadow-md', 'cursor-pointer', 'relative', 'overflow-hidden',
-                    'transition-transform', 'transition-colors', 'duration-300',
-                    'hover:scale-105', 'hover:bg-opacity-40'
-                );
-                // Responsive Breite: 1/3 auf groß, 1/2 auf mittel, voll auf klein
-                div.classList.add('w-full', 'sm:w-1/2', 'lg:w-1/3');
-
-                div.setAttribute('data-widget', component.data.widget);
-                div.innerHTML = component.data.html;
-
-                // Event Listener für erweiterte Ansicht hinzufügen
-                div.addEventListener('click', (e) => {
-                    // Verhindert das Klicken auf den Close-Button auszulösen
-                    if (e.target.classList.contains('close-btn')) return;
-                    openPopover(component.data.expandedHtml);
-                });
-
-                return div;
-            } else if (component.type === 'app') {
-                const div = document.createElement('div');
-                div.classList.add(
-                    'bg-blue-500', 'bg-opacity-30', 'rounded', 'p-2.5',
-                    'shadow-md', 'cursor-pointer', 'relative',
-                    'flex', 'flex-col', 'items-center', 'justify-center',
-                    'transition-transform', 'transition-colors', 'duration-300',
-                    'hover:scale-110', 'hover:bg-opacity-40'
-                );
-                // Responsive Breite und Höhe
-                div.classList.add('w-24', 'h-24', 'sm:w-20', 'sm:h-20', 'md:w-24', 'md:h-24');
-
-                div.setAttribute('data-app', component.data.app);
-                div.innerHTML = `
-                    <img src="${component.data.logo}" alt="${component.data.app} Logo" class="max-w-3/5 max-h-3/5 mb-1">
-                    ${component.data.html}
+                return `
+                    <div class="widget" data-widget="${component.data.widget}">
+                        ${component.data.html}
+                    </div>
                 `;
-
-                // Event Listener für App-Funktion hinzufügen
-                div.addEventListener('click', (e) => {
-                    // Verhindert das Auslösen der Widget-Click-Events, falls überlappend
-                    e.stopPropagation();
-                    executeAppAction(component.data.action);
-                });
-
-                return div;
+            } else if (component.type === 'app') {
+                return `
+                    <div class="app" data-app="${component.data.app}">
+                        <img src="${component.data.logo}" alt="${component.data.app} Logo" class="app-logo">
+                        ${component.data.html}
+                    </div>
+                `;
             }
         }
 
-        // Funktion zum Erstellen von Sektionen
+        // Funktion zum Erstellen von Sektionen als HTML-String
         function createSection(section) {
-            const sectionElement = document.createElement('section');
-            sectionElement.classList.add('w-full', 'max-w-7xl');
+            const componentsHtml = section.components.map(createComponent).join('');
 
-            const mainContent = document.createElement('div');
-            mainContent.classList.add('flex', 'flex-col', 'gap-5');
-
-            const widgetsContainer = document.createElement('div');
-            widgetsContainer.classList.add('flex', 'flex-wrap', 'gap-5', 'my-6');
-
-            section.components.forEach(component => {
-                const componentElement = createComponent(component);
-                widgetsContainer.appendChild(componentElement);
-            });
-
-            mainContent.appendChild(widgetsContainer);
-            sectionElement.appendChild(mainContent);
-
-            return sectionElement;
+            return `
+                <div class="container">
+                    <div class="widgets-container">
+                        ${componentsHtml}
+                    </div>
+                </div>
+            `;
         }
 
-        // Sektionen aus JSON erstellen und hinzufügen
+        // Gesamten HTML-Inhalt generieren und einfügen
+        const sectionsHtml = data.sections.map(createSection).join('');
+        container.innerHTML = sectionsHtml;
+
+        // Komponenten-Mapping für Event-Handler
+        const componentMap = {};
         data.sections.forEach(section => {
-            const sectionElement = createSection(section);
-            container.appendChild(sectionElement);
+            section.components.forEach(component => {
+                if (component.type === 'widget') {
+                    componentMap['widget-' + component.data.widget] = component;
+                } else if (component.type === 'app') {
+                    componentMap['app-' + component.data.app] = component;
+                }
+            });
+        });
+
+        // Event-Listener für Widgets hinzufügen
+        document.querySelectorAll('[data-widget]').forEach(div => {
+            const widgetName = div.getAttribute('data-widget');
+            const component = componentMap['widget-' + widgetName];
+
+            div.addEventListener('click', (e) => {
+                if (e.target.classList.contains('close-btn')) return;
+                openPopover(component.data.expandedHtml);
+            });
+        });
+
+        // Event-Listener für Apps hinzufügen
+        document.querySelectorAll('[data-app]').forEach(div => {
+            const appName = div.getAttribute('data-app');
+            const component = componentMap['app-' + appName];
+
+            div.addEventListener('click', (e) => {
+                e.stopPropagation();
+                executeAppAction(component.data.action);
+            });
         });
 
         // Funktion zum Ausführen von App-Aktionen
@@ -207,32 +374,22 @@
         }
 
         // Beispiel-Funktionen für Apps
-        function openWeather() {
-            alert('Wetter-App geöffnet!');
-            // Hier können Sie weitere Aktionen hinzufügen, z.B. eine neue Seite laden oder ein Modal öffnen
-        }
-
-        function openCalendar() {
-            alert('Kalender-App geöffnet!');
-            // Hier können Sie weitere Aktionen hinzufügen, z.B. eine neue Seite laden oder ein Modal öffnen
+        function meldung() {
+            alert('Öffnen Funktion ist in Arbeit!');
+            // Weitere Aktionen hinzufügen
         }
 
         // Funktion zum Öffnen des Popovers
         function openPopover(content) {
             popoverContent.innerHTML = content;
-            overlay.classList.remove('hidden');
-            popover.classList.remove('scale-0', 'opacity-0');
-            popover.classList.add('scale-100', 'opacity-100');
+            overlay.style.display = 'flex';
             gsap.fromTo(popover, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'power1.out' });
-            overlay.classList.add('flex');
         }
 
         // Funktion zum Schließen des Popovers
         function closePopover() {
             gsap.to(popover, { scale: 0, opacity: 0, duration: 0.3, ease: 'power1.in', onComplete: () => {
-                popover.classList.remove('scale-100', 'opacity-100');
-                overlay.classList.remove('flex');
-                overlay.classList.add('hidden');
+                overlay.style.display = 'none';
             }});
         }
 

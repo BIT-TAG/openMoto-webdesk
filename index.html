@@ -28,20 +28,20 @@
                 <!-- Dropdown "Zoom" -->
                 <li class="dropdown-container">
                     <div class="setting"><button title="Overview"><i data-feather="grid" aria-placeholder="apps"></i></button></div>
-                    <ul class="dropdown" id="homeDropdown">
+                    <ul class="dropdown dropdown-left" id="homeDropdown">
                         <li><div class="overview"></div></li>
                     </ul>
                 </li>
                 <li>
                     <button title="Einstellungen" class="setting"><i data-feather="settings" aria-placeholder="Settings"></i></button>
-                    <ul class="dropdown">
+                    <ul class="dropdown dropdown-left">
                         <li><button id="themeToggle"><i data-feather="moon" aria-placeholder="dark/light"></i></button></li>
                         <li><button onclick="sysSetting()">Einstellung</button></li>
                     </ul>
                 </li>
                 <li>
                     <button title="Support" class="setting"><i data-feather="help-circle" aria-placeholder="Support"></i></button>
-                    <ul class="dropdown">
+                    <ul class="dropdown dropdown-left">
                         <li><button id="themeToggle">Wordpress</button></li>
                         <li><button id="themeToggle">Nextcloud</button></li>
                         <li><button id="themeToggle">ERP-Next</button></li>
@@ -53,38 +53,28 @@
         </div>
     </header>
 
-    <script>
-            /* =========================================================
-             Iframe loader Animation
-          ============================================================ */
+    <div class="content">
+        <section id="Home" class="active">
+            <iframe src="home.html" frameborder="0" width="100%" height="100%"></iframe>
+        </section>
 
-          function hideLoader(iframe) {
-                iframe.parentElement.querySelector('.loader').style.display = 'none';
-            }
-    </script>
+        <section id="Desktop">
+            <!-- Main Content -->
+            <main>
+                <!-- Snap Overlays -->
+                <div id="left-snap-overlay" class="snap-overlay" aria-hidden="true"></div>
+                <div id="right-snap-overlay" class="snap-overlay" aria-hidden="true"></div>
+                <div id="top-snap-overlay" class="snap-overlay" aria-hidden="false"></div>
+                <!-- Fenster Vorlage -->
+            </main>
 
-        <div class="content">
-<section id="Home" class="active">
-    <iframe src="home.html" frameborder="0" width="100%" height="100%"></iframe>
-</section>
-
-<section id="Desktop">
-    <!-- Main Content -->
-    <main>
-        <!-- Snap Overlays -->
-        <div id="left-snap-overlay" class="snap-overlay" aria-hidden="true"></div>
-        <div id="right-snap-overlay" class="snap-overlay" aria-hidden="true"></div>
-        <div id="top-snap-overlay" class="snap-overlay" aria-hidden="false"></div>
-        <!-- Fenster Vorlage -->
-    </main>
-
-    <footer>
-        <div class="taskbar" id="taskbar" role="toolbar" aria-label="Taskleiste">
-            <!-- Minimierte Fenster werden hier hinzugefügt -->
-        </div>
-    </footer>
-</section>
-</div>
+            <footer>
+                <div class="taskbar" id="taskbar" role="toolbar" aria-label="Taskleiste">
+                    <!-- Minimierte Fenster werden hier hinzugefügt -->
+                </div>
+            </footer>
+        </section>
+    </div>
 
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>

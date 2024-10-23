@@ -1,3 +1,11 @@
+                      /* =========================================================
+             Iframe loader Animation
+          ============================================================ */
+
+          function hideLoader(iframe) {
+            iframe.parentElement.querySelector('.loader').style.display = 'none';
+        }
+          
           /* =========================================================
             openWindow Funktion
           ============================================================ */
@@ -854,8 +862,4 @@ const updateTaskCounter = () => {
             updateTaskCounter();
         };
 
-            /* =========================================================
-             Laden der Settings beim start
-          ============================================================ */
 
-          sysSetting()
