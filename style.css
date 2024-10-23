@@ -13,7 +13,7 @@
             --main-color: rgba(var(--color));
             --backcolor-hover: rgba(var(--color), 0.10);
             --backcolorgray-hover: rgba(0,0,0,0.05);
-            --background-color: #fafafa;
+            --background-color: #e7e7e7;
             --main-back: rgba(255, 255, 255);
             --text-color: #000000;
             --text-color-hover: white;
@@ -219,8 +219,8 @@
             box-sizing: border-box;
             overflow-x: auto;
             white-space: nowrap;
-            padding: 5px;
-            height: 50px;
+            padding: 3px;
+            height: 40px;
         }
 
         .taskbar .task {
@@ -302,6 +302,13 @@
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             padding: 5px;
             backdrop-filter: var(--backdrop-filter);
+            right: calc(100% - 30px);
+        }
+
+        .dropdown-footer {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
         }
 
         /* Anzeigen von Untermenüs nach links */
@@ -568,6 +575,10 @@
             backdrop-filter: var(--backdrop-filter);
         }
 
+        .overview h2{
+            text-align: center;
+        }
+
         .overview ul {
             list-style-type: none;
             padding: 0;
@@ -732,15 +743,16 @@
         footer {
             position: fixed;
             width: 100%;
-            height: 50px; /* Gleiche Höhe wie die Taskleiste */
+            height: 50px;
             z-index: 1000;
+            background-color: var(--background-color);
         }
 
         /* Aktualisieren Sie die Höhe des Main-Elements */
         main {
             position: relative;
             overflow: hidden;
-            height: calc(100vh - var(--header-height) - 60px);
+            height: calc(100vh - var(--header-height) - 50px);
         }
 
         /* =========================================================
