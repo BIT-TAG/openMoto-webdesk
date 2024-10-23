@@ -29,6 +29,11 @@ document.addEventListener("DOMContentLoaded", function () {
             "name": "Desktop (Beta)",
             "icon": "monitor",
             "type": "desktop"
+        },
+        "Test": {
+            "name": "Test",
+            "icon": "home",
+            "type": "page"
         }
     }
 

@@ -3,9 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" href="img/small-logo.png">
-    <title>WebDesk (Beta)</title>
+    <title>WebDesk (Alpha)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <link rel="stylesheet" href="style.css">
+    <style>
+        
+        body {
+            padding: 10px;
+            height: calc(100vh - var(--padding)); ;
+            width: calc(100% - var(--padding)*2);
+            overflow: hidden;
+        }
+        .content {
+            border: var(--border);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            max-height: 90%;
+        }
+
+        header {
+            border: none;
+        }
+        .window {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        :root {
+            --color: 212, 96, 0;
+            --main-color: rgba(var(--color));
+            --backcolor-hover: rgba(var(--color), 0.10);
+            --backcolorgray-hover: rgba(0,0,0,0.05);
+            --background-color: #c9c9c9;
+            --main-back: rgba(255, 255, 255);
+            --text-color: #000000;
+            --text-color-hover: white;
+            --border-radius: 0.3rem;
+            --border: 1px solid #b0b0b090;
+            --color-hover: rgba(0, 0, 0, 0.20);
+            --box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            --overview-width: 300px;
+            --header-height: 60px;
+            --padding: 8px;
+            --backdrop-filter: blur(25px);
+            --big-logo: url('img/big-logo.png'); /* Standardbild für Light Mode */
+            --small-logo: url('img/small-logo.png'); /* Standardbild für Light Mode */
+        }
+
+        /* Dunkelmodus Theme */
+        [data-theme="dark"] {
+            --color: 150, 100, 0;
+            --main-color: rgba(var(--color));
+            --backcolor-hover: rgba(var(--color), 0.10);
+            --background-color: rgb(9 9 11);
+            --main-back: rgb(24 24 27);
+            --text-color: #ffffff;
+            --border: 1px solid hsla(0,0%,100%,.1);
+            --box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
+            --big-logo: url('img/big-logo-darkmode.png'); /* Bild für Dark Mode */
+            --small-logo: url('img/small-logo-darkmode.png'); /* Bild für Dark Mode */
+        }
+
+
+        .logo {
+            display: inline-block;
+            width: 150px;
+            height: 50px;
+            margin-right: var(--padding);
+            background-image: var(--big-logo);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 calc(var(--padding)*2) var(--padding) calc(var(--padding)*2);
+            height: 50px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        
+    </style>
 </head>
 <body>
     <!-- Header Content -->
@@ -13,11 +94,7 @@
         <div class="navbar">
             <ul class="menu" id="button-container">
                 <li>
-                    <span class="bild">
-                        <li>
-                            <span class="logo" title="Organisations Logos"></span>
-                        </li>
-                    </span>
+                    <span class="logo" title="Organisations Logos"></span>
                 </li>
             </ul>
         </div>
@@ -68,6 +145,16 @@
     <iframe src="home.html" frameborder="0" width="100%" height="100%"></iframe>
 </section>
 
+<section id="Test">
+    <div class="navbar">
+        <ul class="menu" id="button-container">
+            <li>
+                <span class="logo" title="Organisations Logos"></span>
+            </li>
+        </ul>
+    </div>
+</section>
+
 <section id="Desktop">
     <!-- Main Content -->
     <main>
@@ -85,7 +172,6 @@
     </footer>
 </section>
 </div>
-
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script src="script.js"></script>
